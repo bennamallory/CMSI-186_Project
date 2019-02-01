@@ -34,7 +34,6 @@ public class CountTheDays {
        if( args.length == 0 ) {
           System.out.print( "Invalid Date Input" );
 
-
        } else {
           try {
             month1 = Long.parseLong( args[0] );
@@ -42,7 +41,7 @@ public class CountTheDays {
             year1 = Long.parseLong( args[2] );
             month2 = Long.parseLong( args[3]);
             day2 = Long.parseLong( args[4]);
-            year2 = Long.parseLong( args[5] );
+            year2 = Long.parseLong( args[5] ); 
 
           }
           catch( NumberFormatException nfe ) {
