@@ -413,8 +413,7 @@ public class CalendarStuff {
 
       dateDifference =   differenceInDays + totalYearDifferenceCount - day1 + day2;
       return dateDifference;*/
-
-
+     
       return totalEnd;
     }
 }
