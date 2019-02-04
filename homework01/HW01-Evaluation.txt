@@ -1,0 +1,47 @@
+
+Evaluation for homework 01: Calendar Stuff and CountTheDays
+
+CalendarStuff and CountTheDays program
+Includes running CalendarStuffTester test program
+Includes running automated CountTheDays program
+=================================================
+
+Comments:
+---------
+One of your isValidDate tests didn't pass --
+   February 29, 2001 should NOT be a valid date.
+
+Nice handling of the out of order dates, though!
+
+There are compile errors in your CountTheDays.java program.  The
+errors are all because you are "re-declaring" the parameters in the
+method call to "CalendarStuff.daysBetween()".  I've made a copy and
+fixed the offending lines so you can see the difference.  Check the
+"CountTheDaysA.java" file.
+
+Good work, Mallory!!
+
+A total of one point each for the following:
+
+class CalendarStuff: file exists                      - 1 point
+isLeapYear         : works properly                   - 1 point
+daysInMonth        : works properly                   - 1 point
+dateEquals         : works properly                   - 1 point
+compareDate        : works properly                   - 1 point
+isValidDate        : works properly                   - 1 point
+daysBetween        : works properly                   - 1 point
+CountTheDays       : file exists                      - 1 point
+Files in Git       : all three java files in repo     - 1 point
+Coding Style       : see comments                     - 1 point
+Test Code          : runs all, gets correct results   - 1 point
+
+Note: 12 tests for CountTheDays
+      79 tests for calendarStuffTester
+      91 tests total
+
+
+Total 11 out of 11 = 100% which is an A-plus
+
+
+Nice work!
+
