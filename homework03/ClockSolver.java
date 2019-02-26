@@ -86,7 +86,7 @@ public class ClockSolver {
          clock.tick();
 
          //If angle they input minus the clock angle is less than epsilon, then print out time
-         //Help by Thomas Kelly  2/21/2019
+         //Help by Thomas Kelly  2/21/2019 with first If statement only
          if(clock.getHandAngle() >= angleValue - 1 && clock.getHandAngle() <= angleValue + 1){
              if(Math.abs(angleValue - clock.getHandAngle()) <= 0.1){
                  System.out.println("   Your simulation is running, " + "\n     looking for angles of " + angleValue + " degrees" +
