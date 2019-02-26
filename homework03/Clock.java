@@ -54,12 +54,12 @@ public class Clock {
    *  @return double-precision value of the current clock tick
    */
    public double tick() {
-      //Calculate the next tick from the time increment 
+      //Calculate the next tick from the time increment
 
       elapsedTime += timeSlice;
 
       //If the total seconds minus the number of revolutions in seconds is greater than 3600 sec
-      //Help by Thomas Kelly 2/21/2019
+      //Help by Thomas Kelly 2/21/2019 with revolution steps only
       if(elapsedTime - (3600*revolution) >= 3600){
           revolution ++;
       }
@@ -110,7 +110,7 @@ public class Clock {
           return timeSlice;
       } else {
           timeSlice = 60.0;
-          //System.out.println("Time Slice invalid, set to default of 60.0 seconds" msg?);
+
       }
 
       return timeSlice;
@@ -138,7 +138,7 @@ public class Clock {
       //Moves 6 degrees a minute, portion of that every second...
 
       //Sets minute hand angle to seconds according to one clock revolution
-      //Help by Thomas Kelly 2/21/2019
+      //Help by Thomas Kelly 2/21/2019 with revolution calculation only
       minuteHandAngle = (elapsedTime - (revolution * 3600)) * MINUTE_HAND_DEGREES_PER_SECOND;
 
       return minuteHandAngle;
