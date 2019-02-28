@@ -56,6 +56,8 @@ public class ClockSolver {
                              "   Please try again..........." );
          System.exit( 1 );
       }
+       
+       
 
 
       angleValue = Clock.validateAngleArg(args[0]);
@@ -64,6 +66,11 @@ public class ClockSolver {
       } else {
           timeSlice = Clock.validateTimeSliceArg(args[1]);
       }
+       
+       if (2 == args.length || 1 == args.length){
+            System.out.println("   Your simulation is running, " + "\n     looking for angles of " + angleValue + " degrees" +
+                                                                 "\n     with a time slice of " + timeSlice + " seconds \n\n");
+       }
 
    }
 
@@ -90,7 +97,7 @@ public class ClockSolver {
          if(clock.getHandAngle() >= angleValue - 1 && clock.getHandAngle() <= angleValue + 1){
              if(Math.abs(angleValue - clock.getHandAngle()) <= 0.1){
                 
-                 System.out.println("\n Found target angle of " + angleValue + " at time : " + clock.toString());
+                 System.out.println("Found target angle of " + angleValue + " at time : " + clock.toString());
              }
          }
 
