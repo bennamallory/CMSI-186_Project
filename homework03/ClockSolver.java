@@ -89,9 +89,8 @@ public class ClockSolver {
          //Help by Thomas Kelly  2/21/2019 with first If statement only
          if(clock.getHandAngle() >= angleValue - 1 && clock.getHandAngle() <= angleValue + 1){
              if(Math.abs(angleValue - clock.getHandAngle()) <= 0.1){
-                 System.out.println("   Your simulation is running, " + "\n     looking for angles of " + angleValue + " degrees" +
-                                                                 "\n     with a time slice of " + timeSlice + " seconds");
-                 System.out.println("\n Found target angle of " + angleValue + " at time : " + clock.toString() + "\n\n");
+                
+                 System.out.println("\n Found target angle of " + angleValue + " at time : " + clock.toString());
              }
          }
 
