@@ -1,0 +1,71 @@
+
+Evaluation for homework 03: ClockSolver
+
+Clock and ClockSolver programs
+Includes running Clock main to observe tests
+Includes running automated ClockSolver tests
+============================================================
+
+Point structure for this assignment is one point wherever indicated.
+There are a total of ten points for running ClockSolver with various
+input values.  For each test, you get credit if you find *at least*
+one occurrence of the angle and log it's time.
+
+You get credit for the main() method for testing the Clock methods,
+since I gave that code to you for free.  If you didn't add any more
+tests to it, consider doing so from now on, so you'll get full credit
+for testing in the module.  Even if you took that code out of Clock.java
+or commented it out, it's a freebie.
+
+You also get credit for error any checking code in ClockSolver as follows:
+   if you error check directly in the main, you get freebie credit for the
+      error two checking methods in Clock.java
+   if you error check by calling the ClockSolver validation method, you get
+      freebie credit for the other two error checking methods in Clock.java
+   if you error check using all three methods, GOOD FOR YOU!! You are an
+      increasingly competent Java programmer!!
+
+NOTE: this will be the last time there is this much free credit, so it
+will be in your best interest to apply all the discipline that has been
+talked about in class - extensive testing, mains in class files, running
+the batch/shell scripts against your code, etc.
+
+Also, a not-so-subtle reminder to COMMIT COMMIT COMMIT!!
+
+
+Points are awarded for the following items
+
+class Clock             : Exists, coding style acceptable   -  1 point
+Constructor             : Exists, works properly            -  1 point
+tick                    : works                             -  1 point
+getHourHandAngle        : works                             -  1 point
+getMinuteHandAngle      : works                             -  1 point
+getHandAngle            : works                             -  1 point
+getTotalSeconds         : works                             -  1 point
+toString                : works                             -  1 point
+main exists             : Exists                            -  1 point
+Test Code               : Contains some method test code    -  1 point
+
+class ClockSolver       : Exists, coding style acceptable   -  1 point
+Constructor             : Freebie, not really needed        -  1 point
+HandleInitialArguments  : works, freebie if not used        -  1 point
+main exists             : works                             -  1 point
+works as advertised     : passes all tests in the series    -  8 points
+   includes any and all error checks (1 pt. for all)
+Files in Git            : two files required                -  2 points
+Coding Style overall    : coding style acceptable           -  1 point
+
+Comments: Accepts negative values. Causes infinite loop on timeslice 0.
+
+Total 25 out of 27 = 92.6% which is an A-minus.
+
+Nice work!
+
+Total course grade so far:
+homework00 @  5%:  100.00% =  5.00 points
+homework01 @  5%:  100.00% =  5.00 points
+homework02 @  5%:   93.33% =  4.67 points
+homework03 @ 10%:   92.59% =  9.26 points
+class part @ 10%:  100.00% = 10.00 points
+
+                     total:  33.93 out of 35.00 points = 96.94% which is an A
