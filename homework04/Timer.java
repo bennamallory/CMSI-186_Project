@@ -30,7 +30,7 @@ public class Timer {
 
    static double timeSlice = 0.0;
    double elapsedTime = 0.0;
-   int revolution = 0;
+
 
 
   /**
@@ -39,6 +39,7 @@ public class Timer {
    public Timer( double timeSlice) {
        this.timeSlice = timeSlice;
        elapsedTime = 0.0;
+
    }
 
   /**
@@ -52,11 +53,6 @@ public class Timer {
 
       elapsedTime += timeSlice;
 
-      //If the total seconds minus the number of revolutions in seconds is greater than 3600 sec
-      //Help by Thomas Kelly 2/21/2019 with revolution steps only
-      if(elapsedTime - (3600*revolution) >= 3600){
-          revolution ++;
-      }
       return elapsedTime;
    }
 
@@ -77,7 +73,7 @@ public class Timer {
    *  @return String value of the current clock
    */
    public String toString() {
-      
+
       String hourPattern = "00";
       String minutePattern = "00";
       String secondPattern = "00.000";
@@ -88,7 +84,7 @@ public class Timer {
       double remainder = elapsedTime % 3600;
       String hourString = minuteFormat.format(Math.floor(elapsedTime / 3600));
       String minuteString = minuteFormat.format(Math.floor(remainder / 60));
-      String secondString = secondFormat.format(Math.floor(remainder % 60));
+      String secondString = secondFormat.format(remainder % 60);
 
 
       return hourString + " : " + minuteString + " : " + secondString;
