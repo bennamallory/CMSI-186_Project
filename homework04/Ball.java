@@ -18,6 +18,7 @@
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 import java.text.DecimalFormat;
+import java.lang.*;
 
 
 
@@ -25,11 +26,13 @@ public class Ball {
   /**
    *  Class field definintions go here
    */
-   static double x = 0.0;
-   static double y = 0.0;
-   static double dx = 0.0;
-   static double dy = 0.0;
 
+   public double x = 0.0;
+   public double y = 0.0;
+   public double dx = 0.0;
+   public double dy = 0.0;
+   private static double timeSlice = 1.0;
+   private double frictionValue = 0.0;
 
 
 
@@ -46,31 +49,32 @@ public class Ball {
    /**
     * Move THIS ball
     */
-    public void move() {
-        x = x + dx;
-        y = y + dy;
+    public void move( double timeSlice ) {
+        x += (dx * timeSlice);
+        y += (dy * timeSlice);
     }
 
     /**
      * Method to update the velocity of the ball
      *
      */
-     public void updateVelocity() {
-        dx = dx * 0.99;
-        dy = dy * 0.99;
+     public void updateVelocity( double timeSlice ) {
+         frictionValue = 1.0 - (0.01 * timeSlice);
+         dx *= frictionValue;
+         dy *= frictionValue;
      }
-
 
     /**
      * Detects if the ball is still moving
      * @return  boolean
      */
-     public boolean isInMotion() {
+     public boolean isNotInMotion() {
          //If dx and dy is less than or equal to 1 in/sec then stop
-         if(dx <= 1/12 || dy <= 1/12){
-             return false;
+
+         if(Math.abs(dx) <= (0.0833) && Math.abs(dy) <= (0.0833)){
+             return true;
          }
-         return true;
+         return false;
      }
 
     /**
@@ -115,7 +119,7 @@ public class Ball {
      */
     public boolean collision (Ball b2){
          //Check if ball hit another ball
-         if(Math.sqrt(((x*12) - (b2.x*12)) + ((y*12) - (b2.y*12))) <= 8.9) {
+         if(Math.sqrt((Math.pow((x*12) - (b2.x*12),2) + Math.pow((y*12) - (b2.y*12),2))) <= 8.9) {
             return true;
          }
          return false;
@@ -126,12 +130,22 @@ public class Ball {
     *  @return
     */
     public String toString() {
-     String velocityPattern = "00.00";
+     String velocityPattern = "00.0000";
+     String positionPattern = "00.00";
      DecimalFormat velocityFormat = new DecimalFormat(velocityPattern);
+     DecimalFormat positionFormat = new DecimalFormat(positionPattern);
      String dxString = velocityFormat.format(dx);
      String dyString = velocityFormat.format(dy);
-     String xString = velocityFormat.format(x);
-     String yString = velocityFormat.format(y);
+     String xString = positionFormat.format(x);
+     String yString = positionFormat.format(y);
+
+     if(!isInBounds()){
+         return "<" + xString + "," + yString + ", out of bounds" + " >";
+     }
+
+     if(isNotInMotion()){
+         return "<" + xString + "," + yString + ", at rest" + " >";
+     }
 
      return "<" + xString + "," + yString + "," + dxString + "," + dyString + ">";
     }
@@ -140,8 +154,6 @@ public class Ball {
 
   /**
    *  The main program starts here
-   *  be sure to make LOTS of tests!!
-   *  remember you are trying to BREAK your code, not just prove it works!
    */
    public static void main( String args[] ) {
 
@@ -152,52 +164,52 @@ public class Ball {
       System.out.println( "    New ball created: " + ball.toString() );
 
       System.out.println( "    Calling move three times ");
-      ball.move();
+      ball.move(timeSlice);
       System.out.println( "    New ball created: " + ball.toString() );
 
-      ball.move();
+      ball.move(timeSlice);
       System.out.println( "    New ball created: " + ball.toString() );
 
-      ball.move();
+      ball.move(timeSlice);
       System.out.println( "    New ball created: " + ball.toString() );
 
 
 
 
       System.out.println( "    Calling update velocity three times ");
-      ball.updateVelocity();
+      ball.updateVelocity(timeSlice);
       System.out.println( "    New ball created: " + ball.toString() );
 
-      ball.updateVelocity();
+      ball.updateVelocity(timeSlice);
       System.out.println( "    New ball created: " + ball.toString() );
 
-      ball.updateVelocity();
+      ball.updateVelocity(timeSlice);
       System.out.println( "    New ball created: " + ball.toString() );
 
 
 
       //Testing move and update velocity
       System.out.println( "    Calling move and update velocity  ");
-      ball.move();
-      ball.updateVelocity();
+      ball.move(timeSlice);
+      ball.updateVelocity(timeSlice);
       System.out.println( "    New ball created: " + ball.toString() );
 
 
       //Testing isInMotion with ball that is moving
       ball = new Ball(10,10,1,1);
-      System.out.println("Calling isInMotion, expect true: " + ball.isInMotion());
+      System.out.println("Calling isNotInMotion, expect false: " + ball.isNotInMotion());
       ball = new Ball (100,100,0,0);
-      System.out.println("Calling isInMotion, ball has zero dx and dy, expect false: " + ball.isInMotion());
+      System.out.println("Calling isNotInMotion, ball has zero dx and dy, expect true: " + ball.isNotInMotion());
 
 
       //Testing isInBounds with in bounds ball
 
       ball = new Ball (100,100,5,5);
-      System.out.println("Calling isInBounds, expect true: " + ball.isInMotion());
+      System.out.println("Calling isInBounds, expect false: " + ball.isNotInMotion());
       ball = new Ball (600,100,0,0);
-      System.out.println("Calling isInBounds, expect false: " + ball.isInMotion());
+      System.out.println("Calling isInBounds, expect true: " + ball.isNotInMotion());
       ball = new Ball (700,-900,0,0);
-      System.out.println("Calling isInBounds, expect false: " + ball.isInMotion());
+      System.out.println("Calling isInBounds, expect true: " + ball.isNotInMotion());
 
       //Testing getSpeed
 
