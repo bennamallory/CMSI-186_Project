@@ -27,7 +27,6 @@ public class Riemann {
   public static double lowerBound = 0.0;
   public static double upperBound = 0.0;
   public static double[] coeff = null;
-  public static double coeffiecients = 0.0;
   public static double previous = 0.0;
   public static double current = 0.0;
   public int coeffLength = 0;
@@ -68,7 +67,6 @@ public class Riemann {
       System.out.println("Area is: 18.180");
       System.exit(1);
     }
-
 
 
     //Special case
@@ -186,23 +184,6 @@ public class Riemann {
     }
 
 
-    //Special case
-    if( args[0].equals("tan") && args[1].equals("-0.5") && args[2].equals("1.25")){
-      System.out.println("Area is: 1.0029");
-      System.exit(1);
-    }
-
-    //Special case
-    if( args[0].equals("tan") && args[1].equals("-0.5") && args[2].equals("1.25") && args[3].equals("1.5e-4%")){
-      System.out.println("Area is: 1.0235");
-      System.exit(1);
-    }
-
-    //Special case
-    if( args[0].equals("tan") && args[1].equals("0.0") && args[2].equals("1.0") && args[3].equals("-0.5")  && args[4].equals("1.25") && args[5].equals("1.5e-4%")){
-      System.out.println("Area is: 1.0235");
-      System.exit(1);
-    }
 
     if( args[0].equals("sin") || args[0].equals("cos") || args[0].equals("tan")){
       if (args.length == 3 || (args.length == 4 && (args[args.length-1].contains("%") == true))){
@@ -297,12 +278,12 @@ public class Riemann {
      *  Method to execute Riemann calculation for sine
      */
     public double sinIntegrate(double lowerBound, double upperBound, double[] coeff, double numRec) {
-       double width = (upperBound - lowerBound)/numRec; //gives the width of each of the rectangles
-       double midpoint = 0.0;
-       double yValue = 0.0; //the y value that corresponds to the x -- F(x) value
-       area = 0.0;
+      double width = (upperBound - lowerBound)/numRec; //gives the width of each of the rectangles
+      double midpoint = 0.0;
+      double yValue = 0.0; //the y value that corresponds to the x -- F(x) value
+      area = 0.0;
 
-         //Calculate the Area Under the curve using rectangles
+        //Calculate the Area Under the curve using rectangles
 
         for(int j = 0; j < numRec; j++){
           yValue = 0.0;
@@ -316,19 +297,19 @@ public class Riemann {
           area += yValue * width;
         }
 
-        return area;
+      return area;
     }
 
     /**
      *  Method to execute Riemann calculation for cosine
      */
     public double cosIntegrate(double lowerBound, double upperBound, double[] coeff, double numRec) {
-       double width = (upperBound - lowerBound)/numRec; //gives the width of each of the rectangles
-       double midpoint = 0.0;
-       double yValue = 0.0; //the y value that corresponds to the x -- F(x) value
-       area = 0.0;
+      double width = (upperBound - lowerBound)/numRec; //gives the width of each of the rectangles
+      double midpoint = 0.0;
+      double yValue = 0.0; //the y value that corresponds to the x -- F(x) value
+      area = 0.0;
 
-         //Calculate the Area Under the curve using rectangles
+        //Calculate the Area Under the curve using rectangles
 
         for(int j = 0; j < numRec; j++){
           yValue = 0.0;
@@ -342,17 +323,17 @@ public class Riemann {
           area += yValue * width;
         }
 
-        return area;
+      return area;
     }
 
     /**
      *  Method to execute Riemann calculation for tan
      */
     public double tanIntegrate(double lowerBound, double upperBound, double[] coeff, double numRec) {
-       double width = (upperBound - lowerBound)/numRec; //gives the width of each of the rectangles
-       double midpoint = 0.0;
-       double yValue = 0.0; //the y value that corresponds to the x -- F(x) value
-       area = 0.0;
+      double width = (upperBound - lowerBound)/numRec; //gives the width of each of the rectangles
+      double midpoint = 0.0;
+      double yValue = 0.0; //the y value that corresponds to the x -- F(x) value
+      area = 0.0;
 
          //Calculate the Area Under the curve using rectangles
 
@@ -368,7 +349,7 @@ public class Riemann {
           area += yValue * width;
         }
 
-        return area;
+      return area;
     }
 
 
@@ -380,31 +361,31 @@ public class Riemann {
       */
     public void testIntegrate(){
 
-        System.out.println("Running testIntegrate \n");
+      System.out.println("Running testIntegrate \n");
 
 
-        //-2x^2 + 8x
-        System.out.println("Equation Plugged In:  -2x^2 + 8x");
-        coeffLength = 3;
-        double[] myArgs = {0,8,-2};
-        double result = integrate(1,4,myArgs,1);
-        System.out.println("Expected area is 22.5, got: " + result);
+      //-2x^2 + 8x
+      System.out.println("Equation Plugged In:  -2x^2 + 8x");
+      coeffLength = 3;
+      double[] myArgs = {0,8,-2};
+      double result = integrate(1,4,myArgs,1);
+      System.out.println("Expected area is 22.5, got: " + result);
 
 
-        //9x^3 + 5x^2 + 2x + 3
-        System.out.println("Equation Plugged In:  7x^3 + 2x^2 + 1x + 5");
-        coeffLength = 4;
-        myArgs = new double[] {5,1,2,7};
-        result = integrate(-2,3,myArgs,1);
-        System.out.println("Expected area is 34.375, got: " + result);
+      //9x^3 + 5x^2 + 2x + 3
+      System.out.println("Equation Plugged In:  7x^3 + 2x^2 + 1x + 5");
+      coeffLength = 4;
+      myArgs = new double[] {5,1,2,7};
+      result = integrate(-2,3,myArgs,1);
+      System.out.println("Expected area is 34.375, got: " + result);
 
 
-        //3
-        System.out.println("Equation Plugged In: 3");
-        coeffLength = 1;
-        myArgs = new double[]{3};
-        result = integrate(1,4,myArgs,1);
-        System.out.println("Expected area is 9, got: " + result);
+      //3
+      System.out.println("Equation Plugged In: 3");
+      coeffLength = 1;
+      myArgs = new double[]{3};
+      result = integrate(1,4,myArgs,1);
+      System.out.println("Expected area is 9, got: " + result);
 
     }
 
@@ -416,27 +397,27 @@ public class Riemann {
       */
     public void testValidate(){
 
-        System.out.println("Running testValidate \n");
-        //8x^2 + 5x
-        String[] args = {"poly", "0.0", "5.0", "8.0", "1", "4", "5%"};
-        boolean result = validate(args);
-        System.out.println("Testing poly with valid args, Expected true, got " + result + "\n");
+      System.out.println("Running testValidate \n");
+      //8x^2 + 5x
+      String[] args = {"poly", "0.0", "5.0", "8.0", "1", "4", "5%"};
+      boolean result = validate(args);
+      System.out.println("Testing poly with valid args, Expected true, got " + result + "\n");
 
-        args = new String[] {"poly","1", "4", "5%"};
-        result = validate(args);
-        System.out.println("Testing poly with no arguments, Expected false, got " + result + "\n");
+      args = new String[] {"poly","1", "4", "5%"};
+      result = validate(args);
+      System.out.println("Testing poly with no arguments, Expected false, got " + result + "\n");
 
-        args = new String[] {"poly"};
-        result = validate(args);
-        System.out.println("Testing 'poly', expected false, got " + result + "\n");
+      args = new String[] {"poly"};
+      result = validate(args);
+      System.out.println("Testing 'poly', expected false, got " + result + "\n");
 
-        args = new String[] {"poly","1"};
-        result = validate(args);
-        System.out.println("Testing 'poly 1' expected false, got " + result + "\n");
+      args = new String[] {"poly","1"};
+      result = validate(args);
+      System.out.println("Testing 'poly 1' expected false, got " + result + "\n");
 
-        args = new String[]{"poly", "0.0", "5.0", "8.0", "9.0","1", "4", "5%"};
-        result = validate(args);
-        System.out.println("Testing poly with valid args, Expected true, got " + result + "\n");
+      args = new String[]{"poly", "0.0", "5.0", "8.0", "9.0","1", "4", "5%"};
+      result = validate(args);
+      System.out.println("Testing poly with valid args, Expected true, got " + result + "\n");
 
      }
 
@@ -446,22 +427,22 @@ public class Riemann {
      */
      public void testIntegrateSin(){
 
-         System.out.println("\n Running testIntegrateSin");
+        System.out.println("\n Running testIntegrateSin");
 
-         //Sin(-2x)
-         System.out.println("Equation Plugged In: Sin(-2x)");
-         coeffLength = 2;
-         double[] myArgs = {0,-2};
-         double result = sinIntegrate(1,4,myArgs,1);
-         System.out.println("Expected area one rectangle is 2.87677282398941534, got: " + area);
+        //Sin(-2x)
+        System.out.println("Equation Plugged In: Sin(-2x)");
+        coeffLength = 2;
+        double[] myArgs = {0,-2};
+        double result = sinIntegrate(1,4,myArgs,1);
+        System.out.println("Expected area one rectangle is 2.87677282398941534, got: " + area);
 
 
-         //Sin(x)
-         System.out.println("Equation Plugged In: Sin(x)");
-         coeffLength = 2;
-         myArgs = new double[]{0.0,1.0};
-         result = sinIntegrate(1,4,myArgs,1);
-         System.out.println("Expected area one rectangle is 1.7954164323118693, got: " + area);
+        //Sin(x)
+        System.out.println("Equation Plugged In: Sin(x)");
+        coeffLength = 2;
+        myArgs = new double[]{0.0,1.0};
+        result = sinIntegrate(1,4,myArgs,1);
+        System.out.println("Expected area one rectangle is 1.7954164323118693, got: " + area);
 
      }
 
@@ -470,9 +451,9 @@ public class Riemann {
      *  Method to test methods
      */
     public void runMyTests(){
-        testValidate();
-        testIntegrate();
-        testIntegrateSin();
+      testValidate();
+      testIntegrate();
+      testIntegrateSin();
     }
 
    /**
@@ -525,26 +506,26 @@ public class Riemann {
             break;
 
            case "cos" :
-             previous = r.cosIntegrate(lowerBound, upperBound, coeff, 1);
-             q = 2;
-             while( true ){
-               current = r.cosIntegrate(lowerBound,upperBound, coeff, q);
+              previous = r.cosIntegrate(lowerBound, upperBound, coeff, 1);
+              q = 2;
+              while( true ){
+                current = r.cosIntegrate(lowerBound,upperBound, coeff, q);
 
-               //Checking if the previous area is close enough to the next area
-               if(Math.abs(1 - (current / previous)) <= percentage ){
-                 System.out.println("Area is: " + area);
-                 break;
-               }
-               previous = current;
-               q++;
-             }
-             break;
+                //Checking if the previous area is close enough to the next area
+                if(Math.abs(1 - (current / previous)) <= percentage ){
+                  System.out.println("Area is: " + area);
+                  break;
+                }
+                previous = current;
+                q++;
+              }
+              break;
 
            case "tan" :
-               previous = r.cosIntegrate(lowerBound, upperBound, coeff, 1);
-               q = 2;
-               while( true ){
-                 current = r.cosIntegrate(lowerBound,upperBound, coeff, q);
+              previous = r.tanIntegrate(lowerBound, upperBound, coeff, 1);
+              q = 2;
+              while( true ){
+                 current = r.tanIntegrate(lowerBound,upperBound, coeff, q);
 
                  //Checking if the previous area is close enough to the next area
                  if(Math.abs(1 - (current / previous)) <= percentage ){
@@ -553,8 +534,8 @@ public class Riemann {
                  }
                  previous = current;
                  q++;
-               }
-               break;
+              }
+              break;
 
            case "runtests": r.runMyTests();
                             break;
