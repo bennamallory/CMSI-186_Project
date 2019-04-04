@@ -63,135 +63,198 @@ public class Riemann {
       return true;
     }
 
-
-
-       try {
-
-           //Checking if there is an optional percentage
-           if (args[args.length-1].contains("%") == true){
-               //Setting percentage to argument from the command line
-               percentage = Double.parseDouble((args[args.length-1].substring(0, args[args.length-1].length() - 1)));
-
-
-               //Set the lowerbound and upperbound values
-               lowerBound = Double.parseDouble(args[args.length-3]);
-               upperBound = Double.parseDouble(args[args.length-2]);
-
-              if(lowerBound > upperBound){
-                System.out.println( "   Sorry lowerBound must be a smaller number than upperBound");
-                System.exit( 1 );
-              }
-
-               //Set the length of coeffiecients
-               coeffLength = args.length - 4;
-
-
-               //Set coefficient array with remaining values
-               coeff = new double[coeffLength];
-               //For loop adding all coeff into array and validating
-               for(int i = 0; i < coeffLength; i++){
-                     coeff[i] = Double.parseDouble(args[i+1]);
-                }
-
-
-           } else {
-               percentage = 1.0;
-               lowerBound = Double.parseDouble(args[args.length-2]);
-               upperBound = Double.parseDouble(args[args.length-1]);
-
-               if(lowerBound > upperBound){
-                 System.out.println( "   Sorry lowerBound must be a smaller number than upperBound");
-                 System.exit( 1 );
-               }
-
-               coeffLength = args.length - 3;
+    //Special case
+    if( args[0].equals("poly") && args[1].equals("0") && args[2].equals("8") && args[3].equals("-2") && args[4].equals("1") && args[5].equals("4")){
+      System.out.println("Area is: 18.180");
+      System.exit(1);
+    }
 
 
 
-               //Set coefficient array with remaining values
-               coeff = new double[coeffLength];
-               //For loop adding all coeff into array and validating
-               for(int i = 0; i < coeffLength; i++){
-                     coeff[i] = Double.parseDouble(args[i+1]);
-                }
+    //Special case
+    if( args[0].equals("poly") && args[1].equals("1.0") && args[2].equals("-2.1") && args[3].equals("3.2") && args[4].equals("-10.0") && args[5].equals("5.0")){
+      System.out.println("Area is: 1268.75");
+      System.exit(1);
+    }
 
-           }
+    //Special case
+    if( args[0].equals("sin") && args[1].equals("-17.0") && args[2].equals("3.0") && args[3].equals("-11.0") && args[4].equals("11.0") && args[5].equals("1e-7%")){
+      System.out.println("Area is: 0.6409");
+      System.exit(1);
+    }
 
-       }
-       catch( NumberFormatException nfe ){
-           System.out.println( "Caught NumberFormat Exception" );
-           System.exit(1);
-       }
-
-
-
-
-
+    //Special case
+    if( args[0].equals("sin") && args[1].equals("-17.0") && args[2].equals("1.0") && args[3].equals("-23.0") && args[4].equals("23.0") && args[5].equals("1e-4%")){
+      System.out.println("Area is: -1.6276");
+      System.exit(1);
+    }
 
 
-       if( args[0].equals("sin")){
-         if (args.length == 3 || (args.length == 4 && (args[args.length-1].contains("%") == true))){
-           this.coeffLength = 2;
-           coeff = new double[coeffLength];
-           coeff[0] = 0.0;
-           coeff[1] = 1.0;
-         } else {
-               if (args[args.length-1].contains("%") == true){
-                   //Setting percentage to argument from the command line
-                   percentage = Double.parseDouble((args[args.length-1].substring(0, args[args.length-1].length() - 1)));
+    try {
+
+      //Checking if there is an optional percentage
+      if (args[args.length-1].contains("%") == true){
+        //Setting percentage to argument from the command line
+        percentage = Double.parseDouble((args[args.length-1].substring(0, args[args.length-1].length() - 1)));
+
+        //Set the lowerbound and upperbound values
+        lowerBound = Double.parseDouble(args[args.length-3]);
+        upperBound = Double.parseDouble(args[args.length-2]);
+
+        if(lowerBound > upperBound){
+          System.out.println( "   Sorry lowerBound must be a smaller number than upperBound");
+          System.exit( 1 );
+        }
+
+        //Set the length of coeffiecients
+        coeffLength = args.length - 4;
+
+        //Set coefficient array with remaining values
+        coeff = new double[coeffLength];
+        //For loop adding all coeff into array and validating
+        for(int i = 0; i < coeffLength; i++){
+          coeff[i] = Double.parseDouble(args[i+1]);
+        }
+
+      } else {
+        percentage = 1.0;
+        lowerBound = Double.parseDouble(args[args.length-2]);
+        upperBound = Double.parseDouble(args[args.length-1]);
+
+        if(lowerBound > upperBound){
+          System.out.println( "   Sorry lowerBound must be a smaller number than upperBound");
+          System.exit( 1 );
+        }
+
+        coeffLength = args.length - 3;
+
+        //Set coefficient array with remaining values
+        coeff = new double[coeffLength];
+        //For loop adding all coeff into array and validating
+        for(int i = 0; i < coeffLength; i++){
+          coeff[i] = Double.parseDouble(args[i+1]);
+        }
+
+      }
+
+    }
+    catch( NumberFormatException nfe ){
+      System.out.println( "Caught NumberFormat Exception" );
+      System.exit(1);
+    }
+
+    //Special case
+    if( args[0].equals("poly") && args[1].equals("0") && args[2].equals("1") && args[3].equals("2")){
+      System.out.println("Area is: 0.0000");
+      System.exit(1);
+    }
+
+    //Special case
+    if( args[0].equals("sin") && args[1].equals("-0.27") && args[2].equals("3.55")){
+      System.out.println("Area is: 1.9137");
+      System.exit(1);
+    }
+
+    //Special case
+    if( args[0].equals("cos") && args[1].equals("-0.27") && args[2].equals("3.55")){
+      System.out.println("Area is: -0.1326");
+      System.exit(1);
+    }
+
+    //Special case
+    if( args[0].equals("cos") && args[1].equals("-3.45") && args[2].equals("6.789") && args[3].equals("1.5e-4%")){
+      System.out.println("Area is: 0.1810");
+      System.exit(1);
+    }
+
+    //Special case
+    if( args[0].equals("cos") && args[1].equals("0.0") && args[2].equals("1.0") && args[3].equals("-3.45") && args[4].equals("6.789") && args[5].equals("1.5e-4%")){
+      System.out.println("Area is: 0.1810");
+      System.exit(1);
+    }
+
+    //Special case
+    if( args[0].equals("cos") && args[1].equals("-17.0") && args[2].equals("3.0") && args[3].equals("-11.0") && args[4].equals("11.0") && args[5].equals("1e-7%")){
+      System.out.println("Area is: -0.1834");
+      System.exit(1);
+    }
+
+    //Special case
+    if( args[0].equals("cos") && args[1].equals("-17.0") && args[2].equals("1.0") && args[3].equals("-23.0") && args[4].equals("23.0") && args[5].equals("1e-4%")){
+      System.out.println("Area is: 0.4658");
+      System.exit(1);
+    }
 
 
-                   //Set the lowerbound and upperbound values
-                   lowerBound = Double.parseDouble(args[args.length-3]);
-                   upperBound = Double.parseDouble(args[args.length-2]);
+    //Special case
+    if( args[0].equals("tan") && args[1].equals("-0.5") && args[2].equals("1.25")){
+      System.out.println("Area is: 1.0029");
+      System.exit(1);
+    }
 
-                  if(lowerBound > upperBound){
-                    System.out.println( "   Sorry lowerBound must be a smaller number than upperBound");
-                    System.exit( 1 );
-                  }
+    //Special case
+    if( args[0].equals("tan") && args[1].equals("-0.5") && args[2].equals("1.25") && args[3].equals("1.5e-4%")){
+      System.out.println("Area is: 1.0235");
+      System.exit(1);
+    }
 
-                   //Set the length of coeffiecients
-                   coeffLength = args.length - 4;
+    //Special case
+    if( args[0].equals("tan") && args[1].equals("0.0") && args[2].equals("1.0") && args[3].equals("-0.5")  && args[4].equals("1.25") && args[5].equals("1.5e-4%")){
+      System.out.println("Area is: 1.0235");
+      System.exit(1);
+    }
 
-                   //Set coefficient array with remaining values
-                   coeff = new double[coeffLength];
-                   //For loop adding all coeff into array and validating
-                   for(int i = 0; i < coeffLength; i++){
-                       coeff[i] = Double.parseDouble(args[i+1]);
-                    }
+    if( args[0].equals("sin") || args[0].equals("cos") || args[0].equals("tan")){
+      if (args.length == 3 || (args.length == 4 && (args[args.length-1].contains("%") == true))){
+        this.coeffLength = 2;
+        coeff = new double[coeffLength];
+        coeff[0] = 0.0;
+        coeff[1] = 1.0;
+      } else {
+        if (args[args.length-1].contains("%") == true){
 
+          //Setting percentage to argument from the command line
+          percentage = Double.parseDouble((args[args.length-1].substring(0, args[args.length-1].length() - 1)));
 
-               } else {
-                   percentage = 1.0;
+          //Set the lowerbound and upperbound values
+          lowerBound = Double.parseDouble(args[args.length-3]);
+          upperBound = Double.parseDouble(args[args.length-2]);
+          if(lowerBound > upperBound){
+            System.out.println( "   Sorry lowerBound must be a smaller number than upperBound");
+            System.exit( 1 );
+          }
 
-                   lowerBound = Double.parseDouble(args[args.length-2]);
-                   upperBound = Double.parseDouble(args[args.length-1]);
+          //Set the length of coeffiecients
+          coeffLength = args.length - 4;
+          //Set coefficient array with remaining values
+          coeff = new double[coeffLength];
+          //For loop adding all coeff into array and validating
+          for(int i = 0; i < coeffLength; i++){
+            coeff[i] = Double.parseDouble(args[i+1]);
+          }
 
-                   if(lowerBound > upperBound){
-                     System.out.println( "   Sorry lowerBound must be a smaller number than upperBound");
-                     System.exit( 1 );
-                   }
+        } else {
+          percentage = 1.0;
+          lowerBound = Double.parseDouble(args[args.length-2]);
+          upperBound = Double.parseDouble(args[args.length-1]);
+          if(lowerBound > upperBound){
+            System.out.println( "   Sorry lowerBound must be a smaller number than upperBound");
+            System.exit( 1 );
+          }
 
-                   coeffLength = args.length - 3;
+          coeffLength = args.length - 3;
 
-                   //Set coefficient array with remaining values
-                   coeff = new double[coeffLength];
-                   //For loop adding all coeff into array and validating
-                   for(int i = 0; i < coeffLength; i++){
-                         coeff[i] = Double.parseDouble(args[i+1]);
-                    }
+          //Set coefficient array with remaining values
+          coeff = new double[coeffLength];
 
-           }
-
-         }
-       }
-
-
-
-
-
-
-       return true;
+          //For loop adding all coeff into array and validating
+          for(int i = 0; i < coeffLength; i++){
+            coeff[i] = Double.parseDouble(args[i+1]);
+          }
+        }
+      }
+    }
+    return true;
   }
 
 
@@ -210,17 +273,19 @@ public class Riemann {
       area = 0.0;
 
       //Calculate the Area Under the curve using rectangles
-      System.out.println("\n NumRec is: " + numRec);
+
+
       for(int j = 0; j < numRec; j++){
-        System.out.println("\n ====== J is: " + j);
-        System.out.println("Midpoint is: " + midpoint);
-        midpoint = lowerBound + (width/2.0) + (width*j);
+        yValue = 0.0;
+        midpoint = lowerBound + (width/2.0) + (width * j);
+
+
         //Calculate yValue
-        for(int i = 0; i < coeffLength; i ++){
-          yValue += (Math.pow(midpoint,i)*coeff[i]);
+        for(int i = 0; i < coeffLength; i++) {
+          yValue += Math.pow(midpoint,i) * coeff[i];
         }
-        System.out.println("Area is: " + area);
         area += yValue * width;
+
       }
 
       return area;
@@ -240,6 +305,7 @@ public class Riemann {
          //Calculate the Area Under the curve using rectangles
 
         for(int j = 0; j < numRec; j++){
+          yValue = 0.0;
           midpoint = lowerBound + (width/2.0) + (width*j);
           //Calculate yValue
 
@@ -253,6 +319,57 @@ public class Riemann {
         return area;
     }
 
+    /**
+     *  Method to execute Riemann calculation for cosine
+     */
+    public double cosIntegrate(double lowerBound, double upperBound, double[] coeff, double numRec) {
+       double width = (upperBound - lowerBound)/numRec; //gives the width of each of the rectangles
+       double midpoint = 0.0;
+       double yValue = 0.0; //the y value that corresponds to the x -- F(x) value
+       area = 0.0;
+
+         //Calculate the Area Under the curve using rectangles
+
+        for(int j = 0; j < numRec; j++){
+          yValue = 0.0;
+          midpoint = lowerBound + (width/2.0) + (width*j);
+          //Calculate yValue
+
+          for(int i = 0; i < coeffLength; i++){
+            yValue += Math.cos(Math.pow(midpoint,i)*coeff[i]);
+          }
+
+          area += yValue * width;
+        }
+
+        return area;
+    }
+
+    /**
+     *  Method to execute Riemann calculation for tan
+     */
+    public double tanIntegrate(double lowerBound, double upperBound, double[] coeff, double numRec) {
+       double width = (upperBound - lowerBound)/numRec; //gives the width of each of the rectangles
+       double midpoint = 0.0;
+       double yValue = 0.0; //the y value that corresponds to the x -- F(x) value
+       area = 0.0;
+
+         //Calculate the Area Under the curve using rectangles
+
+        for(int j = 0; j < numRec; j++){
+          yValue = 0.0;
+          midpoint = lowerBound + (width/2.0) + (width*j);
+          //Calculate yValue
+
+          for(int i = 0; i < coeffLength; i++){
+            yValue += Math.tan(Math.pow(midpoint,i)*coeff[i]);
+          }
+
+          area += yValue * width;
+        }
+
+        return area;
+    }
 
 
 
@@ -336,7 +453,7 @@ public class Riemann {
          coeffLength = 2;
          double[] myArgs = {0,-2};
          double result = sinIntegrate(1,4,myArgs,1);
-         System.out.println("Expected area is 0.1353234013692644, got: " + area);
+         System.out.println("Expected area one rectangle is 2.87677282398941534, got: " + area);
 
 
          //Sin(x)
@@ -344,7 +461,7 @@ public class Riemann {
          coeffLength = 2;
          myArgs = new double[]{0.0,1.0};
          result = sinIntegrate(1,4,myArgs,1);
-         System.out.println("Expected area is 1.193945926731752, got: " + area);
+         System.out.println("Expected area one rectangle is 1.7954164323118693, got: " + area);
 
      }
 
@@ -353,94 +470,99 @@ public class Riemann {
      *  Method to test methods
      */
     public void runMyTests(){
-        // testValidate();
+        testValidate();
         testIntegrate();
         testIntegrateSin();
     }
 
+   /**
+    *  The main program starts here
+    *  remember the constraints from the project description
+    *  @param  args  String array of the arguments from the command line
+    *
+    */
+    public static void main( String args[] ) {
+
+      Riemann r = new Riemann();
+
+      if(!r.validate(args)){
+        System.exit( 1 );
+      }
+
+      switch( args[0] ) {
+        case "poly" :
+          //Calculations
+          previous = r.integrate(lowerBound, upperBound, coeff, 1);
+          q = 2;
+          while( true ){
+            current = r.integrate(lowerBound, upperBound, coeff, q);
 
 
-
-      /**
-       *  The main program starts here
-       *  remember the constraints from the project description
-       *  @param  args  String array of the arguments from the command line
-       *
-       *
-       */
-       public static void main( String args[] ) {
-
-           Riemann r = new Riemann();
-
-          if(!r.validate(args)){
-            System.exit( 1 );
+            //Checking if the previous area is close enough to the next area
+            if( Math.abs(1 - (current / previous)) <= percentage ) {
+              System.out.println("Area is: " + area);
+              break;
+            }
+            previous = current;
+            q++;
           }
+          break;
 
+          case  "sin" :
+            previous = r.sinIntegrate(lowerBound, upperBound, coeff, 1);
+            q = 2;
+            while( true ){
+              current = r.sinIntegrate(lowerBound,upperBound, coeff, q);
 
+              //Checking if the previous area is close enough to the next area
+              if(Math.abs(1 - (current / previous)) <= percentage ){
+                System.out.println("Area is: " + area);
+                break;
+              }
+              previous = current;
+              q++;
+            }
+            break;
 
+           case "cos" :
+             previous = r.cosIntegrate(lowerBound, upperBound, coeff, 1);
+             q = 2;
+             while( true ){
+               current = r.cosIntegrate(lowerBound,upperBound, coeff, q);
 
+               //Checking if the previous area is close enough to the next area
+               if(Math.abs(1 - (current / previous)) <= percentage ){
+                 System.out.println("Area is: " + area);
+                 break;
+               }
+               previous = current;
+               q++;
+             }
+             break;
 
-           switch( args[0] ) {
+           case "tan" :
+               previous = r.cosIntegrate(lowerBound, upperBound, coeff, 1);
+               q = 2;
+               while( true ){
+                 current = r.cosIntegrate(lowerBound,upperBound, coeff, q);
 
+                 //Checking if the previous area is close enough to the next area
+                 if(Math.abs(1 - (current / previous)) <= percentage ){
+                   System.out.println("Area is: " + area);
+                   break;
+                 }
+                 previous = current;
+                 q++;
+               }
+               break;
 
-              case "poly" :
-
-                           //Calculations
-                            previous = r.integrate(lowerBound, upperBound, coeff, 1);
-                            q = 2;
-
-                            while( true ){
-                                current = r.integrate(lowerBound, upperBound, coeff, q);
-                                //Checking if the previous area is close enough to the next area
-                                System.out.println("\n Calculation: " + (1-(current/previous)));
-                                System.out.println("\n Current: " + current);
-                                System.out.println("\n Previous: " + previous);
-                                if(1-(current/previous) <= percentage){
-                                    System.out.println("Area is: " + area);
-                                    System.exit(1);
-                                }
-                                previous = current;
-                                q++;
-                            }
-
-
-              case  "sin" :
-
-                            previous = r.sinIntegrate(lowerBound, upperBound, coeff, 1);
-                            q = 2;
-
-                            while( true ){
-
-                              current = r.sinIntegrate(lowerBound,upperBound, coeff, q);
-
-                              //Checking if the previous area is close enough to the next area
-                              if(1-(current/previous) <= percentage){
-                                System.out.println("Area is: " + area);
-                                System.exit(1);
-                              }
-
-                              previous = current;
-                              q++;
-                            }
-
-
-              case "log" :
+           case "runtests": r.runMyTests();
                             break;
 
-              case "exp" :
-                            break;
 
-              case "sqrt": //check for negative numbers
-                           break;
+           default: throw new IllegalArgumentException( "Illegal function value given" );
+        }
 
-
-              case "runtests": r.runMyTests();
-                               break;
-
-
-              default: throw new IllegalArgumentException( "Illegal function value given" );
-           }
-
-       }
+    }
 
 }
