@@ -1,0 +1,115 @@
+
+Evaluation for homework 05: Riemann Integration
+
+Only Riemann.java is required, you may do all code in one file
+Optional second "Integrators.java" file earns one EC point
+Includes running "runtests" function for unit method tests
+Includes running automated riemanntests.bat or riemanntests.sh
+   View riemanntests.bat to see test parameters used
+   Evaluation results are at the bottom of this file
+   Current course grade is also at the bottom of the file
+==============================================================
+
+The Riemann.java file must exist.  It must have a main method and needs
+to handle at a minimum the "runtests", the "poly", and the "sin" functions
+on the command line.  In addition there are argument validations that must
+be handled including:
+
+   - detecting no arguments
+   - detecting the correct number of arguments
+   - arguments are of correct type after conversion (no letters)
+   - percentage value set to default if not on command line
+   - percentage validated and set properly if it IS on the command line
+
+There may be an optional "Integrators.java" class file to handle the math
+of the integrations.  If it exists, that is one EC point.
+
+At minimum, there should be methods to handle the "poly" and the "sin"
+integration functions.  Those are worth one point each.  Any other methods
+for integrating other functions earn one EC point each, with no maximum.
+If the two required methods are actually done in the main as part of the
+"switch" or "if-else" statement, that is fine, they still earn the points,
+with the caveat that it is better to make them methods next time.
+
+The "runMyTests" method must exist and must allow for the tests to be run
+using the command line "pseudo-function" called "runtests".  There must
+be AT LEAST one test for each of the functions that are implemented, which
+means a minimum of three: validateArgs(), poly(), and sin().
+
+Testing will be done using the script files that were sent to you during
+the development of your project.  There are 6 tests for input validity,
+worth 6 points.  There are 5 tests for up to 2nd degree polynomials, for
+another 5 points, and one test for a 5th order polynomial, worth one
+point.  There are 5 tests for the sin function, worth a total of 5 points.
+There are tests included for cos, tan, sqrt, log, and exp, just to see if
+they run; however, the credit is for the implementation of the functions
+so getting the right answer AND implementing the function code gives a
+TOTAL of one point.
+
+There must be at least one file in the repo: the Riemann.java file.
+
+Your source code style is important for this project, and will continue
+to be so for the rest of the semester.  Make sure you indent properly
+and consistently, that your variables have good names, there is NO code
+that is left in that is not needed [commented out], and that you have
+comments to help explain what the code does without being overly
+loquatious.
+
+A total of one point each for the following, except where noted:
+
+Riemann.java            : exists and compiles               - 1 point
+argument validations    : checks args and throws exceptions - 2 point
+main method             : runs properly, no errors          - 1 point
+runMyTests method       : exists, tests three methods       - 2 points
+Integrators class [EC]  : if it exists/compiles [optional]  - 0 point EC
+Integrate polynomials   : method exists in some file        - 1 point
+Integrate sine          : method exists in some file        - 1 point
+Integrate cosine [EC]   : method exists in some file        - 0 point EC
+Integrate tangent [EC]  : method exists in some file        - 1 point EC
+Integrate log [EC]      : method exists in some file        - 0 oint EC
+Integrate exp [EC]      : method exists in some file        - 0 point EC
+Integrate sq. root [EC] : method exists in some file        - 0 point EC
+Integrate compos. [EC]  : method exists in some file        - 0 point EC
+tests input valid       : passes all six checks             - 6 points
+tests for 2nd deg poly  : gets correct answers on tests     - 2 oints
+test for 5th deg poly   : gets correct answer on test       - 1 point
+test for sin (5 pts)    : gets correct answers on tests     - 2 points
+Riemann.java in repo    : one file [gimme]                  - 1 point
+Coding style            : as noted in text above            - 5 points
+
+Total 26 out of 30 = 86.67% which is a B
+
+It is possible to get more than 100% on this assignment.  The total percent
+will be applied to the 15% that this exercise is worth overall.  For example,
+if you get the maximum credit, you will get 37 out of 30, which is 123.33%.
+This means you will get 18.5 points for this 15-point exercise.
+
+Detailed comments:
+==================
+Your argument validation works fine.
+Taking three points off for the three poly "special cases" in your code.
+Taking three points off for the three sin "special cases" in your code.
+I'm not sure why you felt you needed those, when the other test cases for
+   those two functions seem to work properly....
+You did the same thing for the five cos functions so no credit there.
+Your tan function seems to work, though.  One of the three tests is a little
+   off, but the other two are correct.  I'll give you credit for all three.
+
+You do VERY nice work, you work hard to understand and get your code working,
+and your attention to the details is laudable!  Your process seems very well
+matured, making notes for questions, keeping track of things that way.
+
+Try not to do that "special case" thing any more, because it costs you points
+for something you don't need to do, OK?
+
+Total course grade so far:
+homework00 @  5%:  100.00% =  5.00 points
+homework01 @  5%:  100.00% =  5.00 points
+homework02 @  5%:   93.33% =  4.67 points
+homework03 @ 10%:   92.59% =  9.26 points
+homework04 @ 10%:  100.00% = 10.00 points
+homework05 @ 15%:   86.67% = 13.00 points
+class part @ 10%:  100.00% = 10.00 points
+
+                     total:  56.93 out of 60.00 points = 94.88% which is an A
+

@@ -1,0 +1,453 @@
+.                                                                              
+=====================================================                          
+Testing the Riemann Ingetration Project Homework # 05                          
+=====================================================                          
+.                                                                              
+.                                                                              
+... Running built-in tests in the Riemann class                                
+...   should either throw exceptions which will not appear in the output file  
+...     but which should be caught to keep the test program running            
+...   or preferably output error messages which SHOULD appear there then quit  
+
+   Hello world, from the Riemann program!!
+
+
+Running testValidate 
+
+
+   Hello world, from the Riemann program!!
+
+
+Testing poly with valid args, Expected true, got true
+
+
+   Hello world, from the Riemann program!!
+
+
+Testing poly with no arguments, Expected false, got true
+
+
+   Hello world, from the Riemann program!!
+
+
+   Sorry you must enter valid arguments
+   Usage: java Riemann <functionName> <addDescript> <lowerBound> <upperBound> [percentage]
+   Please try again...........
+Testing 'poly', expected false, got false
+
+
+   Hello world, from the Riemann program!!
+
+
+   Sorry you must enter valid arguments
+   Usage: java Riemann <functionName> <addDescript> <lowerBound> <upperBound> [percentage]
+   Please try again...........
+Testing 'poly 1' expected false, got false
+
+
+   Hello world, from the Riemann program!!
+
+
+Testing poly with valid args, Expected true, got true
+
+Running testIntegrate 
+
+Equation Plugged In:  -2x^2 + 8x
+Expected area is 22.5, got: 22.5
+Equation Plugged In:  7x^3 + 2x^2 + 1x + 5
+Expected area is 34.375, got: 34.375
+Equation Plugged In: 3
+Expected area is 9, got: 9.0
+
+ Running testIntegrateSin
+Equation Plugged In: Sin(-2x)
+Expected area one rectangle is 2.87677282398941534, got: 2.8767728239894153
+Equation Plugged In: Sin(x)
+Expected area one rectangle is 1.7954164323118693, got: 1.7954164323118693
+.                                                                              
+.                                                                              
+============================================================================   
+Testing bogus function name 'bogus'                                            
+...should either throw an exception which will not appear in the output file   
+...  or preferably ouput error messages which SHOULD appear there, then quit  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+   Sorry you must enter valid arguments
+   Usage: java Riemann <functionName> <addDescript> <lowerBound> <upperBound> [percentage]
+   Please try again...........
+.                                                                              
+.                                                                              
+============================================================================   
+Testing bogus function name 'poly' with no arguments                           
+...should either throw an exception which will not appear in the output file   
+...  or preferably ouput error messages which SHOULD appear there, then quit  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+   Sorry you must enter valid arguments
+   Usage: java Riemann <functionName> <addDescript> <lowerBound> <upperBound> [percentage]
+   Please try again...........
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'poly' with only one arg                           
+...should either throw an exception which will not appear in the output file   
+...  or preferably ouput error messages which SHOULD appear there, then quit  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+   Sorry you must enter valid arguments
+   Usage: java Riemann <functionName> <addDescript> <lowerBound> <upperBound> [percentage]
+   Please try again...........
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'poly' with only two args                          
+...should either throw an exception which will not appear in the output file   
+...  or preferably ouput error messages which SHOULD appear there, then quit  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+   Sorry you must enter valid arguments
+   Usage: java Riemann <functionName> <addDescript> <lowerBound> <upperBound> [percentage]
+   Please try again...........
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'poly' with four args with negative final arg      
+...should either throw an exception which will not appear in the output file   
+...  or preferably ouput error messages which SHOULD appear there, then quit  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+   Sorry lowerBound must be a smaller number than upperBound
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'poly' with four args with zero final arg          
+...should either throw an exception which will not appear in the output file   
+...  or preferably ouput error messages which SHOULD appear there, then quit  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+   Sorry lowerBound must be a smaller number than upperBound
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'poly' with three args and default percentage      
+...should produce a result close to '0.0000'                                   
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 0.0000
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'poly' with three args with final arg 1e-6%       
+...should produce a result close to '2.0000'                                   
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 2.0
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'poly' with test case parabola args and 1e-6%     
+...should produce a result close to '18.0000'                                  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 18.00070312499999
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'poly' with test case parabola args and default    
+...should produce a result close to '18.1800'                                  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 18.180
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'poly' with web page args and default              
+...should produce a result close to '1268.75'                                  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 1268.75
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'poly' for x\5 - 2X\3 - X\2 - 7X - 3            
+   from 0 to 2 with 1e-6%                                                    
+...should produce a result close to '-20.00'                                   
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: -20.000940338574317
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'sin' with web page args and default               
+...should produce a result close to '1.9137'                                   
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 2.201184018103368
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'sin' with args -3.45 6.789 and 1.5e-4%           
+...should produce a result close to '-1.8278'                                  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: -1.8325973831768578
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'sin' with args 0.0 1.0 -3.45 6.789 and 1.5e-4%   
+...should produce a result close to '-1.8278'                                  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: -1.8325973831768578
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'sin' with args -17.0 3.0 -11.0 11.0 and 1e-7%    
+...should produce a result close to '0.6409'                                   
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 0.6409
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'sin' with args -17.0 1.0 -23.0 23.0 and 1e-4%    
+...should produce a result close to '-1.6276'                                  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: -1.6276
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'sqrt' with args 23.0 -3.0 7.0 1.0 7.0 and 1e-6%  
+...should output a result close to 67.8939                                     
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'sqrt' with args 100.0 0.0 1.0 and 1e-8%          
+...should output a result close to 10.0                                        
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'sqrt' with args -100.0 0.0 1.0 and 1e-8%         
+...should either throw an exception which will not appear in the output file   
+...  or preferably ouput error messages which SHOULD appear there, then quit   
+...  Also acceptable is the java output of 'NaN'                               
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'sqrt' with args 2.0 0.0 1.0 and 1e-3%            
+...should output a result close to 1.4142                                      
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'cos' with web page args and default               
+...should produce a result close to '-0.1326'                                  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 3.667426336775541
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'cos' with args -3.45 6.789 and 1.5e-4%           
+...should produce a result close to '0.1810'                                   
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 0.1810
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'cos' with args 0.0 1.0 -3.45 6.789 and 1.5e-4%   
+...should produce a result close to '0.1810'                                   
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 0.1810
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'cos' with args -17.0 3.0 -11.0 11.0 and 1e-7%    
+...should produce a result close to '-0.1834'                                  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: -0.1834
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'cos' with args -17.0 1.0 -23.0 23.0 and 1e-4%    
+...should produce a result close to '0.4658'                                   
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 0.4658
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'tan' with args -0.5 1.25 and default              
+...should produce a result close to '1.0029'                                   
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 0.8690028653649393
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'tan' with args -0.5 1.25 and 1.5e-4%             
+...should produce a result close to '1.0235'                                   
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 1.0218032382683673
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'tan' with args 0.0 1.0 -0.5 1.25 and 1.5e-4%     
+...should produce a result close to '1.0235'                                   
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+Area is: 1.0218032382683673
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'log' with args 0.0 1.0 1.1 2.3 and 1e-5%         
+...should produce a result close to '0.6109'                                   
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'log'                                              
+...should produce a result close to '0.6140'                                   
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'exp' with web page args and default prct          
+...should produce a result close to '25.5763'                                  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'exp' with web page args and 1.6e-7%              
+...should produce a result close to '25.7264'                                  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+.                                                                              
+.                                                                              
+============================================================================   
+Testing valid function name 'exp' with 0.0 1.0 2.0 3.5 and 1e-7%              
+...should produce a result close to '25.7264'                                  
+============================================================================   
+
+   Hello world, from the Riemann program!!
+
+
+.                                                                              
+.                                                                              
+============================================================================   
+End of Testing                                                                 
+============================================================================   
