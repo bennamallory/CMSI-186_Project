@@ -26,14 +26,15 @@ public class Collatz {
    */
 
   public static int iterations = 0;
+  public static String arguments = "";
 
-  /**
-   *  Constructor
-   *
-   */
-   public Collatz() {
-
-   }
+/**
+  *  Constructor
+  *
+  */
+  public Collatz() {
+    super();
+  }
 
 
 
@@ -43,21 +44,21 @@ public class Collatz {
   */
   public static void handleInitialArguments( String args[] ) {
 
-      System.out.println( "\n   Hello world, from the Collatz program!!\n\n" ) ;
-      if( 0 == args.length ) {
-         System.out.println( "   Sorry you must enter___");
-         System.exit( 1 );
-      }
+    arguments = args;
+
+    System.out.println( "\n   Hello world, from the Collatz program!!\n\n" ) ;
+    if( 0 == args.length ) {
+       System.out.println( "   Sorry you must enter a valid number");
+       System.exit( 1 );
+    }
 
 
-      try {
-      }
-      catch( NumberFormatException nfe ){
-          System.out.println( "Caught NumberFormat Exception" );
-          System.exit(1);
-      }
-
-
+    //Check if all characters are numbers
+    //May have a plus or minus sign on it
+    if ( !(Character.isDigit( arguments )) || !('+' == arguments.charAt(0)) || !('-' == arguments.charAt(0)) ){
+      System.out.println( "Caught NumberFormat Exception: must enter a valid number" );
+      System.exit(1);
+    }
 
   }
 
@@ -73,23 +74,37 @@ public class Collatz {
   */
   public static void main( String args[] ) {
 
-    //This is the sequence we saw in the CMSI 185 homework that takes an integer number as
-    //  input, then generates a sequence of values based upon whether the current value is
-    // even or odd; if it is even, the value is divided by 2, and if it is odd, the value is multiplied by three
-    //  then one is added to that result. The program should output both the sequence and the number of steps.
+    b1.handleInitialArguments(args);
+    BrobInt b1 = new BrobInt(args[0]);
 
-    while (___ != 1){
-      if( % 2 == 0){
-        //divide by 2
-      } else if(  % 2 != 0){
-        //multiply by 3
-        //add one to result
+
+    //This is the sequence we saw in the CMSI 185 homework that takes an integer number as input,
+    //  then generates a sequence of values based upon whether the current value is even or odd;
+    //  if it is even, the value is divided by 2, and if it is odd, the value is multiplied by three
+    //  then one is added to that result.
+    //  The program should output both the sequence and the number of steps.
+
+    BrobInt result = BrobInt.ZERO;
+    int iterations = 0;
+
+    while ( !result.equals(BrobInt.ONE) ){
+      //If even (modulo of this number is zero), divide by 2
+      if( b1.remainder(BrobInt.TWO) == BrobInt.ZERO ){
+        result = b1.divide(BrobInt.TWO);
+
+      //Otherwise, it is odd
+      } else if( b1.remainder(BrobInt.TWO)!= BrobInt.ZERO ){
+        //multiply by 3 and add one
+        result = b1.multiply(BrobInt.THREE).add(BrobInt.ONE);
+
       }
 
       iterations += 1;
+
+      System.out.println("Sequence: " + result);
     }
 
-    System.out.println("Value of 1 was reached after " + steps + "iterations");
+    System.out.println("Value of 1 was reached after " + iterations + " iterations");
 
   }
 
