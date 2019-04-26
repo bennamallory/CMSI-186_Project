@@ -27,52 +27,57 @@ import java.util.Arrays;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class BrobInt {
 
-   public static final BrobInt ZERO     = new BrobInt(  "0" );      /// Constant for "zero"
-   public static final BrobInt ONE      = new BrobInt(  "1" );      /// Constant for "one"
-   public static final BrobInt TWO      = new BrobInt(  "2" );      /// Constant for "two"
-   public static final BrobInt THREE    = new BrobInt(  "3" );      /// Constant for "three"
-   public static final BrobInt FOUR     = new BrobInt(  "4" );      /// Constant for "four"
-   public static final BrobInt FIVE     = new BrobInt(  "5" );      /// Constant for "five"
-   public static final BrobInt SIX      = new BrobInt(  "6" );      /// Constant for "six"
-   public static final BrobInt SEVEN    = new BrobInt(  "7" );      /// Constant for "seven"
-   public static final BrobInt EIGHT    = new BrobInt(  "8" );      /// Constant for "eight"
-   public static final BrobInt NINE     = new BrobInt(  "9" );      /// Constant for "nine"
-   public static final BrobInt TEN      = new BrobInt( "10" );      /// Constant for "ten"
+  public static final BrobInt ZERO     = new BrobInt(  "0" );      /// Constant for "zero"
+  public static final BrobInt ONE      = new BrobInt(  "1" );      /// Constant for "one"
+  public static final BrobInt TWO      = new BrobInt(  "2" );      /// Constant for "two"
+  public static final BrobInt THREE    = new BrobInt(  "3" );      /// Constant for "three"
+  public static final BrobInt FOUR     = new BrobInt(  "4" );      /// Constant for "four"
+  public static final BrobInt FIVE     = new BrobInt(  "5" );      /// Constant for "five"
+  public static final BrobInt SIX      = new BrobInt(  "6" );      /// Constant for "six"
+  public static final BrobInt SEVEN    = new BrobInt(  "7" );      /// Constant for "seven"
+  public static final BrobInt EIGHT    = new BrobInt(  "8" );      /// Constant for "eight"
+  public static final BrobInt NINE     = new BrobInt(  "9" );      /// Constant for "nine"
+  public static final BrobInt TEN      = new BrobInt( "10" );      /// Constant for "ten"
 
   /// Some constants for other intrinsic data types
   ///  these can help speed up the math if they fit into the proper memory space
-   public static final BrobInt MAX_INT  = new BrobInt( Integer.valueOf( Integer.MAX_VALUE ).toString() );
-   public static final BrobInt MIN_INT  = new BrobInt( Integer.valueOf( Integer.MIN_VALUE ).toString() );
-   public static final BrobInt MAX_LONG = new BrobInt( Long.valueOf( Long.MAX_VALUE ).toString() );
-   public static final BrobInt MIN_LONG = new BrobInt( Long.valueOf( Long.MIN_VALUE ).toString() );
+  public static final BrobInt MAX_INT  = new BrobInt( Integer.valueOf( Integer.MAX_VALUE ).toString() );
+  public static final BrobInt MIN_INT  = new BrobInt( Integer.valueOf( Integer.MIN_VALUE ).toString() );
+  public static final BrobInt MAX_LONG = new BrobInt( Long.valueOf( Long.MAX_VALUE ).toString() );
+  public static final BrobInt MIN_LONG = new BrobInt( Long.valueOf( Long.MIN_VALUE ).toString() );
 
   /// These are the internal fields
-   public  String internalValue = "";        // internal String representation of this BrobInt
-   public  byte   sign          = 0;         // "0" is positive, "1" is negative
+  public  String internalValue = "";        // internal String representation of this BrobInt
+  public  byte   sign          = 0;         // "0" is positive, "1" is negative
 
 
    //Other variables
-   public int chunks = 0;
-   public int[] numArray = null;
-   public int brobPiece = 0;
-   public int[] resultArray = null;
-   public int[] resultArrayTwo = null;
-   public int carry = 0;
-   public int borrow = 0;
-   public int resultArraySpace = 0;
-   public String result = "";
-   public int start = 0;
-   public int stop = 0;
-   public int j = 0;
-    public int sum = 0;
+  public int chunks = 0;
+  public int[] numArray = null;
+  public int brobPiece = 0;
+  public int[] resultArray = null;
+  public int[] resultArrayTwo = null;
+  public int carry = 0;
+  public int borrow = 0;
+  public int resultArraySpace = 0;
+  public String result = "";
+  public int start = 0;
+  public int stop = 0;
+  public int j = 0;
+  public int sum = 0;
+  DecimalFormat df = new DecimalFormat("000000000");
+  int holdSign = 0;
 
 
-   private static BufferedReader input = new BufferedReader( new InputStreamReader( System.in ) );
-   private static final boolean DEBUG_ON = true;
-   private static final boolean INFO_ON  = false;
+  private static BufferedReader input = new BufferedReader( new InputStreamReader( System.in ) );
+  private static final boolean DEBUG_ON = true;
+  private static final boolean INFO_ON  = false;
 
 
   /**
@@ -85,18 +90,28 @@ public class BrobInt {
 
       internalValue = value;
 
-      //validateDigits();
+      //Validating digits
+      if ( internalValue.length() == 0){
+           throw new IllegalArgumentException( "\n  There must be at least one digit entered" );
+      }
+
+      // for(int i = 0; i < internalValue.length(); i++){
+      //   if( !(Character.isDigit(internalValue.charAt(i))) || !('+' == internalValue.charAt(i)) || !('-' == internalValue.charAt(i)) )) {
+      //     throw new IllegalArgumentException( "\n  There must only be numbers entered, optional + or - before" );
+      //   }
+      // }
 
       //Checking for sign value and removing extra sign if neccessary
       if(internalValue.charAt(0) == '-'){
         sign = 1;
         //Remove sign
-        internalValue.replace("-", "");
+        internalValue = internalValue.replace("-", "");
+
 
       } else if (internalValue.charAt(0) == '+'){
         sign = 0;
         //Remove sign
-        internalValue.replace("+", "");
+        internalValue = internalValue.replace("+", "");
       }
 
 
@@ -146,26 +161,6 @@ public class BrobInt {
     }
 
 
-// /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//   *  Method to validate that all the characters in the value are valid decimal digits
-//   *  @return  boolean  true if all digits are good
-//   *  @throws  IllegalArgumentException if something is hinky
-//   *  note that there is no return false, because of throwing the exception
-//   *  note also that this must check for the '+' and '-' sign digits
-//   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-//   public boolean validateDigits() throws IllegalArgumentException {
-//     if ( internalValue.length() == 0){
-//       throw new IllegalArgumentException( "\n  Must enter at least one digit" );
-//     }
-//
-//     if( !(Character.isDigit(internalValue)) || !('+' == arguments.charAt(0)) || !('-' == arguments.charAt(0)) ) {
-//       throw new IllegalArgumentException( "\n  Must enter at least one digit" );
-//     }
-//
-//     return true;
-//   }
-
-
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     *  Method to add the value of a BrobInt passed as argument to this BrobInt using byte array
@@ -176,6 +171,8 @@ public class BrobInt {
 
       result = "";
 
+
+
       //Creating a new resultArray with enough space for the resulting number
       if(numArray.length > bint.numArray.length || numArray.length == bint.numArray.length){
         resultArraySpace = chunks + 1;
@@ -185,7 +182,7 @@ public class BrobInt {
         resultArray = new int[resultArraySpace];
       }
 
-
+      //result = "";
       //If both signs positive (us bigger than bint) - add
       if( (sign == 0 && bint.sign == 0) && (numArray.length > bint.numArray.length) ){
 
@@ -214,11 +211,11 @@ public class BrobInt {
 
         //Result calculation
         for(int i = resultArray.length - 1; i >= 0; i--){
-          result += new String(Integer.valueOf(resultArray[i]).toString());
+          result += df.format(resultArray[i]);
         }
       }
 
-
+      //result = "";
       //If both signs are positive (bint bigger than us - only loop to size of us first) -- add
       if((sign == 0 && bint.sign == 0) && numArray.length < bint.numArray.length){
         //Add - make sure to only loop first to smallest array
@@ -247,12 +244,13 @@ public class BrobInt {
 
         //Result
         for(int i = resultArray.length - 1; i >= 0; i--){
-          result += new String(Integer.valueOf(resultArray[i]).toString());
+          //result += new String(Integer.valueOf(df.format(resultArray[i])).toString());
+          result += df.format(resultArray[i]);
         }
       }
 
 
-
+      //result = "";
       //If both signs are negative (us bigger than bint) -- add, make result negative
       if((sign == 1 && bint.sign == 1) && numArray.length > bint.numArray.length){
         //Add - make sure to only loop to bint size first (make result neg)
@@ -281,11 +279,12 @@ public class BrobInt {
 
         //Result
         for(int i = resultArray.length - 1; i >= 0; i--){
-          result += new String(Integer.valueOf(resultArray[i]).toString());
+          result += new String(Integer.valueOf(df.format(resultArray[i])).toString());
         }
+        holdSign = 1;
       }
 
-
+      //result = "";
       //If both signs are negative (bint bigger than  us) -- add, make result negative
       if((sign == 1 && bint.sign == 1) && numArray.length < bint.numArray.length){
         //Add - make sure to only loop first to smallest array (make result negative)
@@ -293,7 +292,7 @@ public class BrobInt {
         //Adding arrays until the shortest one is done
         for(int i = 0; i < numArray.length; i++){
           resultArray[i] = numArray[i] + bint.numArray[i] + carry;
-          if(resultArray[i] > 999999999 ){
+          if(resultArray[i] > 999999999){
             resultArray[i] -= 1000000000;
             carry = 1;
           } else {
@@ -315,12 +314,13 @@ public class BrobInt {
 
         //Loop to create resulting String
         for(int i = resultArray.length - 1; i >= 0; i--){
-          result += new String(Integer.valueOf(resultArray[i]).toString());
+          result += new String(Integer.valueOf(df.format(resultArray[i])).toString());
         }
+        holdSign = 1;
       }
 
 
-
+      //result = "";
       //If both signs are negative and lengths are equal
       if((sign == 1 && bint.sign == 1) && numArray.length == bint.numArray.length){
         //Add - make sure to only loop first to smallest array (make result negative)
@@ -339,11 +339,13 @@ public class BrobInt {
 
         //Loop to create resulting String
         for(int i = resultArray.length - 2; i >= 0; i--){
-          result += new String(Integer.valueOf(resultArray[i]).toString());
+          result += new String(Integer.valueOf(df.format(resultArray[i])).toString());
         }
+        holdSign = 1;
       }
 
 
+      //result = "";
       //If both signs are positive and lengths are equal
       if((sign == 0 && bint.sign == 0) && numArray.length == bint.numArray.length){
         //Add - make sure to only loop first to smallest array
@@ -362,45 +364,16 @@ public class BrobInt {
 
         //Loop to create resulting String
         for(int i = resultArray.length - 1; i >= 0; i--){
-          result += new String(Integer.valueOf(resultArray[i]).toString());
+          result += df.format(resultArray[i]);
         }
       }
 
 
-
-      // //If this is neg and bint is pos and lengths are equal
-      // if((sign == 1 && bint.sign == 0) && numArray.length == bint.numArray.length){
-      //   this.subtract(bint);
-      // }
-      //
-      // //If this is pos and bint is neg and lengths are equal
-      // if((sign == 0 && bint.sign == 1) && numArray.length == bint.numArray.length){
-      //   this.subtract(bint);
-      // }
-      //
-      //
-      // //If us is neg and bint is pos (us bigger than bint ) -- subtract
-      // if((sign == 1 && bint.sign == 0) && numArray.length > bint.numArray.length){
-      //   this.subtract(bint);
-      // }
-      //
-      // //If us is neg and bint is pos (bint bigger than us)  -- swap and subtract
-      // if((sign == 1 && bint.sign == 0) && numArray.length < bint.numArray.length){
-      //   this.subtract(bint);
-      // }
-      //
-      //
-      // //If bint is neg and us is pos (us bigger than bint) -- subtract
-      // if((sign == 0 && bint.sign == 1) && numArray.length > bint.numArray.length){
-      //   this.subtract(bint);
-      // }
-      //
-      // //If bint is neg and us is pos (bint bigger than us) -- swap and subtract, add neg to result
-      // if((sign == 0 && bint.sign == 1) && numArray.length < bint.numArray.length){
-      //   this.subtract(bint);
-      // }
-
-      return removeLeadingZeros( new BrobInt(result) );
+      BrobInt returnR = removeLeadingZeros(new BrobInt(result));
+      if(holdSign == 1){
+        returnR.sign = 1;
+      }
+      return returnR;
     }
 
 
@@ -411,21 +384,24 @@ public class BrobInt {
     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     public BrobInt subtract( BrobInt bint ) {
       // set up for subtraction sign handling to decide what to do based on the following cases:
+      result = "";
+      holdSign = 0;
 
       //Creating a new resultArray with enough space for the resulting number
       if(numArray.length > bint.numArray.length){
-        resultArraySpace = chunks + 1;
+        resultArraySpace = chunks;
         resultArray = new int[resultArraySpace];
       } else {
-        resultArraySpace = bint.chunks + 1;
+        resultArraySpace = bint.chunks;
         resultArray = new int[resultArraySpace];
       }
 
 
+      //result = "";
       //    1. no signs at all, this item larger than argument:        simple subtraction a - b
       //    2. both signs positive, this item larger than argument:    simple subtraction a - b
       //    3. one positive one no sign, this item larger than arg:    simple subtraction a - b
-        if( (sign == 0 && bint.sign == 0) && numArray.length > bint.numArray.length){
+        if( (sign == 0 && bint.sign == 0) && (numArray.length > bint.numArray.length)){
           for(int i = 0; i < bint.numArray.length; i++){
             if(numArray[i] < bint.numArray[i]){
               borrow = 1;
@@ -443,14 +419,13 @@ public class BrobInt {
           }
 
           //Loop to create resulting String
-          for(int i = resultArray.length - 1; i >= 0; i--){
-            result += new String(Integer.valueOf(resultArray[i]).toString());
+          for(int i = numArray.length - 1; i >= 0; i--){
+            result += df.format(resultArray[i]);
           }
-
         }
 
 
-
+      //result = "";
       //    4. no signs at all, this item smaller than argument:       swap a & b, subtract a - b,
       if(  (sign == 0 && bint.sign == 0) && numArray.length < bint.numArray.length){
         for(int i = 0; i < numArray.length; i++){
@@ -471,11 +446,12 @@ public class BrobInt {
 
         //Loop to create resulting String
         for(int i = resultArray.length - 1; i >= 0; i--){
-          result += new String(Integer.valueOf(resultArray[i]).toString());
+          result += df.format(resultArray[i]);
         }
       }
 
 
+      //result = "";
       //    5. both signs positive, this item smaller than argument:   swap a & b, subtract a - b, result negative
       //    6. one positive one no sign, this item smaller than arg:   swap a & b, subtract a - b, result negative
       if( (sign == 0 && bint.sign == 0) && numArray.length < bint.numArray.length){
@@ -497,26 +473,27 @@ public class BrobInt {
 
         //Loop to create resulting String
         for(int i = resultArray.length - 1; i >= 0; i--){
-          result += new String(Integer.valueOf(resultArray[i]).toString());
+          result += df.format(resultArray[i]);
         }
-
-        result = "-" + result;
-
+        holdSign = 1;
       }
 
+      //result = "";
       //    7. this no sign or positive, arg negative:                 remove neg from arg and call this.add( arg )
       if( sign == 0 && bint.sign == 1) {
+
         bint.sign = 0;
-        this.add(bint);
+        return this.add(bint);
       }
 
+      //result = "";
       //    8. this negative, arg positive:                            add negative to arg and call this.add( arg )
       if(  sign == 1 && bint.sign == 0 ){
         bint.sign = 1;
         this.add(bint);
       }
 
-
+      //result = "";
       //    9. both signs negative, this larger abs than arg abs:      remove signs, subtract, add neg to result
       if(  (sign == 1 && bint.sign == 1) && Math.abs(numArray.length) > Math.abs(bint.numArray.length)){
         sign = 0;
@@ -540,14 +517,14 @@ public class BrobInt {
 
         //Loop to create resulting String
         for(int i = resultArray.length - 1; i >= 0; i--){
-          result += new String(Integer.valueOf(resultArray[i]).toString());
+          result += df.format(resultArray[i]);
         }
-        result = "-" + result;
+        holdSign = 1;
       }
 
-
+      //result = "";
       //   10. both signs negative, this smaller abs than arg abs:     remove signs, swap a & b, subtract, result pos
-      if(  (sign == 1 && bint.sign ==1) && Math.abs(numArray.length) < Math.abs(bint.numArray.length)){
+      if(  (sign == 1 && bint.sign == 1) && Math.abs(numArray.length) < Math.abs(bint.numArray.length)){
         sign = 0;
         bint.sign = 0;
 
@@ -569,13 +546,195 @@ public class BrobInt {
 
         //Loop to create resulting String
         for(int i = resultArray.length - 1; i >= 0; i--){
-          result += new String(Integer.valueOf(resultArray[i]).toString());
+          result += df.format(resultArray[i]);
+        }
+        holdSign = 1;
+      }
+
+
+      //result = "";
+      //   11. both signs positive, equal chunks, this larger than bint:
+      if(  (sign == 0 && bint.sign == 0) && ( numArray.length == bint.numArray.length && compareTo(bint) == 1) ){
+        for(int i = 0; i < bint.numArray.length; i++){
+          if(numArray[i] < bint.numArray[i]){
+            borrow = 1;
+            numArray[i + 1] -= 1;
+            numArray[i] += 1000000000;
+          } else {
+            borrow = 0;
+          }
+          resultArray[i] = numArray[i] - bint.numArray[i];
+        }
+
+        //To add longer array numbers in with borrow
+        for(int i = bint.numArray.length; i < numArray.length; i++){
+          resultArray[i] = numArray[i];
+        }
+
+        //Loop to create resulting String
+        for(int i = numArray.length - 1; i >= 0; i--){
+          result += df.format(resultArray[i]);
+        }
+      }
+
+      //result = "";
+      //   12. both signs positive, equal chunks, this smaller than bint:
+      if(  (sign == 0 && bint.sign == 0) && ( numArray.length == bint.numArray.length && compareTo(bint) == -1) ){
+        for(int i = 0; i < numArray.length; i++){
+          if( numArray[i] > bint.numArray[i] ){
+            borrow = 1;
+            resultArray[i+1] -= 1;
+            resultArray[i] += 1000000000;
+          } else {
+            borrow = 0;
+          }
+          resultArray[i] = bint.numArray[i] - numArray[i];
+        }
+
+        //To add longer array numbers in with borrow
+        for(int i = numArray.length; i < bint.numArray.length; i++){
+          resultArray[i] = bint.numArray[i];
+        }
+
+        //Loop to create resulting String
+        for(int i = resultArray.length - 1; i >= 0; i--){
+          result += new String(Integer.valueOf(df.format(resultArray[i])).toString());
+        }
+        holdSign = 1;
+      }
+
+
+      //result = "";
+      //   13. both signs positive, equal chunks, this equal to bint:
+      if(  (sign == 0 && bint.sign == 0) && ( numArray.length == bint.numArray.length && compareTo(bint) == 0) ){
+        for(int i = 0; i < numArray.length; i++){
+          if(numArray[i] > bint.numArray[i]){
+            borrow = 1;
+            resultArray[i+1] -= 1;
+            resultArray[i] += 1000000000;
+          } else {
+            borrow = 0;
+          }
+          resultArray[i] = bint.numArray[i] - numArray[i];
+        }
+
+        //Loop to create resulting String
+        for(int i = resultArray.length - 1; i >= 0; i--){
+          result += df.format(resultArray[i]);
         }
       }
 
 
-    return new BrobInt(result);
-   }
+      //   14. this pos, bint neg, equal chunks, this larger than bint:
+      if(  (sign == 0 && bint.sign == 1) && ( numArray.length == bint.numArray.length && compareTo(bint) == 1) ){
+        for(int i = 0; i < bint.numArray.length; i++){
+          if(numArray[i] < bint.numArray[i]){
+            borrow = 1;
+            numArray[i + 1] -= 1;
+            numArray[i] += 1000000000;
+          } else {
+            borrow = 0;
+          }
+          resultArray[i] = numArray[i] - bint.numArray[i];
+        }
+
+        //To add longer array numbers in with borrow
+        for(int i = bint.numArray.length; i < numArray.length; i++){
+          resultArray[i] = numArray[i];
+        }
+
+        //Loop to create resulting String
+        for(int i = numArray.length - 1; i >= 0; i--){
+          result += new String(Integer.valueOf(df.format(resultArray[i])).toString());
+        }
+      }
+
+
+      //   15. this neg, bint neg, equal chunks, this larger than bint:
+      if(  (sign == 1 && bint.sign == 1) && ( numArray.length == bint.numArray.length && compareTo(bint) == 1) ){
+        for(int i = 0; i < numArray.length; i++){
+          if( numArray[i] > bint.numArray[i] ){
+            borrow = 1;
+            //resultArray[i+1] -= 1;
+            //resultArray[i] += 1000000000;
+          } else {
+            borrow = 0;
+          }
+          resultArray[i] = bint.numArray[i] - numArray[i];
+        }
+
+        //To add longer array numbers in with borrow
+        for(int i = numArray.length; i < bint.numArray.length; i++){
+          resultArray[i] = bint.numArray[i];
+        }
+
+
+        //Loop to create resulting String
+        for(int i = resultArray.length - 1; i >= 0; i--){
+          result += new String(Integer.valueOf(df.format(resultArray[i])).toString());
+        }
+        //holdSign = 1;
+
+      }
+
+      //   16. this neg, bint neg, equal chunks, this smaller than bint:
+      if(  (sign == 1 && bint.sign == 1) && ( numArray.length == bint.numArray.length && compareTo(bint) == -1) ){
+        for(int i = 0; i < bint.numArray.length; i++){
+          if(numArray[i] < bint.numArray[i]){
+            borrow = 1;
+            //numArray[i + 1] -= 1;
+            //numArray[i] += 1000000000;
+          } else {
+            borrow = 0;
+          }
+          resultArray[i] = bint.numArray[i] - numArray[i];
+        }
+
+        //To add longer array numbers in with borrow
+        for(int i = bint.numArray.length; i < numArray.length; i++){
+          resultArray[i] = numArray[i];
+        }
+
+        //Loop to create resulting String
+        for(int i = numArray.length - 1; i >= 0; i--){
+          result += new String(Integer.valueOf(df.format(resultArray[i])).toString());
+        }
+        //holdSign = 1;
+
+      }
+
+
+      //   17. this positive, bint neg, equal chunks, this smaller than bint:
+      if(  (sign == 0 && bint.sign == 1) && ( numArray.length == bint.numArray.length && compareTo(bint) == 1) ){
+        for(int i = 0; i < bint.numArray.length; i++){
+          if(numArray[i] < bint.numArray[i]){
+            borrow = 1;
+            numArray[i + 1] -= 1;
+            numArray[i] += 1000000000;
+          } else {
+            borrow = 0;
+          }
+          resultArray[i] = numArray[i] - bint.numArray[i];
+        }
+
+        //To add longer array numbers in with borrow
+        for(int i = bint.numArray.length; i < numArray.length; i++){
+          resultArray[i] = numArray[i];
+        }
+
+        //Loop to create resulting String
+        for(int i = numArray.length - 1; i >= 0; i--){
+          result += new String(Integer.valueOf(df.format(resultArray[i])).toString());
+        }
+      }
+
+    BrobInt returnR = removeLeadingZeros(new BrobInt(result));
+    if(holdSign == 1){
+      returnR.sign = 1;
+    }
+
+    return returnR;
+  }
 
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -584,62 +743,21 @@ public class BrobInt {
     *  @return BrobInt that is the product of the value of this BrobInt and the one passed in
     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     public BrobInt multiply( BrobInt bint ) {
-      //Russian Peasant Multiplication
-      // BrobInt counter = BrobInt.ZERO;
-      //
-      // //Creating a new resultArray with enough space for the resulting number
-      // if(numArray.length > bint.numArray.length){
-      //  resultArraySpace = chunks + 1;
-      //  resultArray = new int[resultArraySpace];
-      //  resultArrayTwo = new int [resultArraySpace];
-      // } else {
-      //  resultArraySpace = bint.chunks + 1;
-      //  resultArray = new int[resultArraySpace];
-      //  resultArrayTwo = new int [resultArraySpace];
-      // }
-      //
-      //
-      // // check for the signs; if not the same, the result should be negative
-      // //  this can be done in one line with an OR of two ANDs
-      // if( (sign == 1 && bint.sign == 1) || ( sign == 0 &&  bint.sign == 1) ){
-      //   //result.sign == 1;
-      // }
-      //
-      //
-      // j = 0;
-      // // Halve the first number until it reaches 1
-      // while( !counter.equals(BrobInt.ONE)){
-      //   for(int i = 0; i < //; i++){
-      //     resultArray[i] = divide(BrobInt.TWO);
-      //     j++;
-      //   }
-      //   counter.add(BrobInt.ONE);
-      // }
-      //
-      //
-      // //  multiply second number by two until i is the same
-      // for( int i = 0; i == j; i++){
-      //   resultArrayTwo[i] = multiply(BrobInt.TWO);
-      // }
-      //
-      // // if first number at i is odd, dont add second number at i, if even, add second number at i
-      // for (int i = 0; i < resultArray.length; i++){
-      //   if( resultArray[i].remainder(BrobInt.TWO) != BrobInt.ZERO){
-      //     sum = add(resultArrayTwo[i]);
-      //   }
-      // }
-
 
       //Repeated addition
-      BrobInt sum = BrobInt.ZERO;
-      BrobInt counter = BrobInt.ONE;
+      BrobInt sum = ZERO;
+      BrobInt counter = ZERO;
 
 
-      while( !counter.equals(bint) ){
-        sum = add(this);
-        counter.add(BrobInt.ONE);
-        System.out.println("Counter " + counter);
-        System.out.println("Sum " + sum);
+      BrobInt bCopy = new BrobInt(bint.toString());
+      BrobInt thisCopy = new BrobInt(this.toString());
+      bCopy.sign = 0;
+
+
+
+      while( counter.compareTo(bCopy) != 0 ){
+        sum = sum.add(thisCopy);
+        counter = counter.add(BrobInt.ONE);
       }
 
 
@@ -653,31 +771,90 @@ public class BrobInt {
    *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public BrobInt divide( BrobInt bint ) {
 
-      BrobInt sum = BrobInt.ZERO;
-      BrobInt counter = BrobInt.ZERO;
+    BrobInt d1 = new BrobInt(bint.toString());
+    BrobInt d2 = new BrobInt(this.toString());
+    BrobInt d3 = null;
+    BrobInt q = ZERO;
+    int n = d1.toString().length();
 
-      //  1. is d1 == 0?  if so, throw IllegalArgumentException
-      if( bint.equals( BrobInt.ZERO ) ) {
-         throw new IllegalArgumentException("\n  Argument causes a divide-by-zero error\n\n" );
+    // for implementation, in this discussion/comment/steps:
+     //  0. divisor [passed in as ARGUMENT] is "d1"
+     //     dividend [ME] is "d2"
+     //     current dividend being handled is "d3"
+     //     quotient is "q" and string length count is "n"
+     //        for example, 56789 divided by 37: d1 == 37 and d2 == 56789
+     //                     d3 starts with 56 and goes on adding single digits with each iteration
+     //                     "q" starts at zero, and "n" starts at 2
 
-     //  2. is d1 > d2?  if so, return BrobInt.ZERO [integer division]
-      } else if( 0 > this.compareTo( bint ) ) {
-         return BrobInt.ZERO;
 
-     //  3. is d1 == d2? if so, return BrobInt.ONE [divided by itself]
-      } else if( this.equals( bint ) ) {
-         return BrobInt.ONE;
+    //  1. is d1 == 0?  if so, throw IllegalArgumentException
+    //  IF ARGUMENT is equal to BrobInt.ZERO
+    //     throw new IllegalArgumentException
+    if( d1.equals( BrobInt.ZERO )) {
+      throw new IllegalArgumentException("\n  Argument causes a divide-by-zero error\n\n" );
+    }
 
-      }
+    //  2. is d1 == d2 ? if so, return BrobInt.ONE
+    if( d2.equals(d1) ) {
+      return BrobInt.ONE;
+    }
 
-      //Subtract other number x amount of times until reaches zero, return value of x
-      while( sum.compareTo(bint) != -1 ){
-        sum = subtract(bint);
-        counter.add(BrobInt.ONE);
-      }
+    //  3. is d1 > d2 ?  if so, return BrobInt.ZERO  [INTEGER ARITHMETIC!!!]
+    if (d1.compareTo(d2) == 1){
+      return BrobInt.ZERO;
 
-      return counter;
+    //  4. otherwise, get length of d1 and put into "n"
+    }
+
+   //  5. extract that many characters from the front of THIS and put into d3
+   d3 = new BrobInt(d2.toString().substring(0,n));
+
+   //  6. is d1 > d3?  if so, add one to "n" and
+   if(d1.compareTo(d3) == 1){
+    n++;
+    //re-extract characters from THIS into d3
+    d3 = new BrobInt(d2.toString().substring(0,n));
    }
+
+  //  7. while "n" <= THIS.toString().length()
+  while ( n <= d2.toString().length() ){
+    while ( d3.compareTo(d1) > -1 ){
+      // a. while d3 > BINT:
+      //     i. subtract THIS from d3 [ gint.subtract( this ) ]
+
+      d3 = d3.subtract(d1);
+
+      //    ii. add one to quotient [ q.add( BrobInt.ONE ) ]
+      q = q.add(BrobInt.ONE);
+    }
+
+    // b. d3 now has any remainder [e.g., 56 - 37 = 19, "q" is one and d3 is 19]
+
+    // c. if "n++" is equal to d1.toString().length() then we are done -- break
+    if ( n++ == d2.toString().length() ){
+      break;
+    }
+
+    // d. multiply d3 by 10 using d3.multiply( BrobInt.TEN )
+    d3 = d3.multiply( BrobInt.TEN);
+
+
+    // e. multiply "q" by 10 using q.multiply( BrobInt.TEN )
+    q = q.multiply( BrobInt.TEN );
+
+    // f. extract next digit from d2 using d2.toString().substring( n-1, n )
+    BrobInt newDigit = new BrobInt(d2.toString().substring(n-1, n));
+
+
+    // g. add current value of d3 to extracted digit [e.g., get "7" from d2, concat to d3 to make "197"]
+    d3 = d3.add(newDigit);
+  }
+
+  //  8. return "q" value which is already a BrobInt
+
+  return q;
+}
+
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     *  Method to get the remainder of division of this BrobInt by the one passed as argument
@@ -705,8 +882,9 @@ public class BrobInt {
     public int compareTo( BrobInt bint ) {
 
       // remove any leading zeros because we will compare lengths
-       String me  = removeLeadingZeros( this ).toString();
-       String arg = removeLeadingZeros( bint ).toString();
+      String me  = removeLeadingZeros( this ).toString();
+
+      String arg = removeLeadingZeros( bint ).toString();
 
       // handle the signs here
        if( 1 == sign && 0 == bint.sign ) {
@@ -769,7 +947,11 @@ public class BrobInt {
     *  @return String  which is the String representation of this BrobInt
     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     public String toString() {
-      return internalValue;
+      String returnString = "";
+      if(sign == 1){
+        returnString = "-";
+      }
+      return returnString + internalValue;
     }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -784,7 +966,7 @@ public class BrobInt {
       int index = 0;
 
       if( allZeroDetect( bint ) ) {
-        return bint;
+        return ZERO;
       }
       if( ('-' == returnString.charAt( index )) || ('+' == returnString.charAt( index )) ) {
         sign = returnString.charAt( index );
@@ -798,9 +980,9 @@ public class BrobInt {
         index++;
       }
       returnString = bint.toString().substring( index, bint.toString().length() );
-      if( sign != null ) {
-        returnString = sign.toString() + returnString;
-      }
+      // if( sign != null ) {
+      //   returnString = sign.toString() + returnString;
+      // }
       return new BrobInt( returnString );
     }
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -816,6 +998,7 @@ public class BrobInt {
       }
       return true;
     }
+
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     *  Method to display an Array representation of this BrobInt as its bytes
     *  @param   d  int array from which to display the contents
@@ -849,27 +1032,32 @@ public class BrobInt {
       System.out.println( "\n  Hello, world, from the BrobInt program!!\n" );
        System.out.println( "\n   You should run your tests from the BrobIntTester...\n" );
 
-       BrobInt b1 = null;;
-       // try { System.out.println( "   Making a new BrobInt: " ); b1 = new BrobInt( "147258369789456123" ); }
-       // catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
-       // try { System.out.println( "   expecting: 147258369789456123\n     and got: " + b1.toString() ); }
-       // catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
-       // System.out.println( "\n    Multiplying 82832833 by 3: " );
-       // try { System.out.println( "      expecting: 248498499\n        and got: " + new BrobInt("82832833").multiply( BrobInt.THREE ) ); }
-       // catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+       BrobInt b1 = null;
+       BrobInt b2 = null;
+       try { System.out.println( "   Making a new BrobInt: " ); b1 = new BrobInt( "147258369789456123" ); }
+       catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+       try { System.out.println( "   expecting: 147258369789456123\n     and got: " + b1.toString() ); }
+       catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+       System.out.println( "\n    Multiplying 82832833 by 3: " );
+       try { System.out.println( "      expecting: 248498499\n        and got: " + new BrobInt("82832833").multiply( BrobInt.THREE ) ); }
+       catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
 
        try { System.out.println( "   Making a new BrobInt: " ); b1 = new BrobInt( "10" ); }
        catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
        try { System.out.println( "   expecting: 10\n     and got: " + b1.toString() ); }
        catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
        System.out.println( "\n    Multiplying 10 by 3: " );
-       try { System.out.println( "      expecting: 30\n        and got: " + new BrobInt("82832833").multiply( BrobInt.THREE ) ); }
+       try { System.out.println( "      expecting: 30\n        and got: " + new BrobInt("10").multiply( BrobInt.THREE ) ); }
        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
 
 
-       // System.out.println( "\n    Multiplying 3 by 82832833 and adding 1: " );
-       // try { System.out.println( "      expecting: 248498500\n        and got: " + BrobInt.THREE.multiply( new BrobInt( "82832833" ) ).add( BrobInt.ONE ) ); }
-       // catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
-       // System.exit( 0 );
+       try { System.out.println( "   Making a new BrobInt: " ); b1 = new BrobInt( "10" ); }
+       catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+       try { System.out.println( "   expecting: 10\n     and got: " + b1.toString() ); }
+       catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+       System.out.println( "\n    Dividing 50 by 10: " );
+       try { System.out.println( "      expecting: 5\n        and got: " + new BrobInt("50").divide(TEN) ); }
+       catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+
     }
 }
