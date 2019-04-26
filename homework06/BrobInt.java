@@ -1059,5 +1059,10 @@ public class BrobInt {
        try { System.out.println( "      expecting: 5\n        and got: " + new BrobInt("50").divide(TEN) ); }
        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
 
+      System.out.println( "\n    Multiplying 3 by 82832833 and adding 1: " );
+      try { System.out.println( "      expecting: 248498500\n        and got: " + BrobInt.THREE.multiply( new BrobInt( "82832833" ) ).add( BrobInt.ONE ) ); }
+      catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+      System.exit( 0 );
+
     }
 }
