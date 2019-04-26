@@ -25,8 +25,11 @@ public class Collatz {
    *  Class field definitions go here
    */
 
+   public static final BrobInt ZERO     = new BrobInt(  "0" );      /// Constant for "zero"
+   public static final BrobInt ONE      = new BrobInt(  "1" );      /// Constant for "one"
+
   public static int iterations = 0;
-  public static String arguments = "";
+
 
 /**
   *  Constructor
@@ -44,7 +47,6 @@ public class Collatz {
   */
   public static void handleInitialArguments( String args[] ) {
 
-    arguments = args;
 
     System.out.println( "\n   Hello world, from the Collatz program!!\n\n" ) ;
     if( 0 == args.length ) {
@@ -53,15 +55,16 @@ public class Collatz {
     }
 
 
-    //Check if all characters are numbers
-    //May have a plus or minus sign on it
-    if ( !(Character.isDigit( arguments )) || !('+' == arguments.charAt(0)) || !('-' == arguments.charAt(0)) ){
-      System.out.println( "Caught NumberFormat Exception: must enter a valid number" );
-      System.exit(1);
-    }
+    // //Check if all characters are numbers
+    // //May have a plus or minus sign on it
+    // for(int i = 0; i < args[0].length(); i++){
+    //   if( !(Character.isDigit(args[0].charAt(i))) || !('+' == args[0].charAt(i)) || !('-' == args[0].charAt(i)) ) {
+    //    System.out.println( "\n  There must only be numbers entered, optional + or - before" );
+    //    System.exit(1);
+    //   }
+    // }
 
   }
-
 
 
 /**
@@ -74,8 +77,11 @@ public class Collatz {
   */
   public static void main( String args[] ) {
 
-    b1.handleInitialArguments(args);
+    handleInitialArguments(args);
     BrobInt b1 = new BrobInt(args[0]);
+    BrobInt bCopy = new BrobInt(b1.toString());
+
+
 
 
     //This is the sequence we saw in the CMSI 185 homework that takes an integer number as input,
@@ -84,28 +90,30 @@ public class Collatz {
     //  then one is added to that result.
     //  The program should output both the sequence and the number of steps.
 
-    BrobInt result = BrobInt.ZERO;
-    int iterations = 0;
+    BrobInt result = ZERO;
+    iterations = 0;
 
-    while ( !result.equals(BrobInt.ONE) ){
+    System.out.println("ITERATIONS: " + iterations + ", SEQUENCE: " + bCopy);
+
+    while ( bCopy.compareTo(BrobInt.ONE) != 0 ){
       //If even (modulo of this number is zero), divide by 2
-      if( b1.remainder(BrobInt.TWO) == BrobInt.ZERO ){
-        result = b1.divide(BrobInt.TWO);
-
+      if( bCopy.remainder(BrobInt.TWO) == BrobInt.ZERO ){
+        bCopy = bCopy.divide(BrobInt.TWO);
       //Otherwise, it is odd
-      } else if( b1.remainder(BrobInt.TWO)!= BrobInt.ZERO ){
+      } else {
         //multiply by 3 and add one
-        result = b1.multiply(BrobInt.THREE).add(BrobInt.ONE);
-
+        bCopy = bCopy.multiply(BrobInt.THREE).add(BrobInt.ONE);
       }
 
       iterations += 1;
 
-      System.out.println("Sequence: " + result);
+
+
+      System.out.println("ITERATIONS: " + iterations + ", SEQUENCE: " + bCopy);
     }
 
     System.out.println("Value of 1 was reached after " + iterations + " iterations");
-
+    System.exit(1);
   }
 
 
