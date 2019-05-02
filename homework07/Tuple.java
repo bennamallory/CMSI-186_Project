@@ -200,7 +200,7 @@ public class Tuple {
    */
    @Override
    public String toString() {
-      if( isImpossible()) {
+      if( isImpossible() ) {
         return "Impossible tuple";
       }
 
