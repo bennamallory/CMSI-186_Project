@@ -76,8 +76,8 @@ public class DynamicChangeMaker {
       }
 
       //Checking for duplicates
-      for (int i = 0; i < denominations.length - 2; i++) {
-        for(int j = i + 1; j < denominations.length - 1; i++ ){
+      for (int i = 0; i < denominations.length - 1; i++) {
+        for(int j = i + 1; j < denominations.length - 2; j++ ){
           if ( denominations[i] == denominations[j]){
             System.out.println(" BAD DATA: Sorry you must only enter one type of each denomination" );
             return "BAD DATA";
@@ -248,5 +248,7 @@ public class DynamicChangeMaker {
     }
 
   }
+
+
 
 }
