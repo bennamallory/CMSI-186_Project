@@ -239,7 +239,7 @@ public class DynamicChangeMaker {
     if( t.total() > 0 ){
       System.out.println("The following coins make ---- ");
       for(int i = 0; i < t.length(); i++){
-        System.out.println( t.getElement(i) + "x" + d.denominations[i] + " coins ");
+        System.out.println( t.getElement(i) + " x " + d.denominations[i] + " cent coins ");
       }
 
       System.out.println("Which is " + t.total() + " coins");
